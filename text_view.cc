@@ -38,7 +38,7 @@ static void displayBottomBorder(ostream &os){
 static void displayCards(vector<card_template_t> cards, ostream &os){
     for(int x = 0; x < int(cards.at(0).size()); x++){
         os<<EXTERNAL_BORDER_CHAR_UP_DOWN;
-        for(int y = 0; y < cards.size(); y++){
+        for(int y = 0; y < int(cards.size()); y++){
             os<<cards.at(y).at(x);
         }
         os<<EXTERNAL_BORDER_CHAR_UP_DOWN<<endl;
@@ -73,7 +73,7 @@ void TextView::notify(Subject<void> &whoFrom){
         displayTopBorder(os);
         displayCards(p1Display, os);
         displayCards(p1Minions, os);
-        for(int x = 0; x < CENTRE_GRAPHIC.size(); x++){
+        for(int x = 0; x < int(CENTRE_GRAPHIC.size()); x++){
             os<<CENTRE_GRAPHIC.at(x)<<endl;
         }
         displayCards(p2Minions, os);

@@ -5,9 +5,17 @@
 GameController::GameController(std::shared_ptr<GameState> gameState):gameState{gameState}{}
 
 void GameController::notify(Subject<std::string> &whoFrom){
-    std::cout<<whoFrom.getInfo()<<std::endl;
+    if(gameState->getCurrentStatus() == CurrentStatus::GET_NAME){
+        gameState->setCurrentPlayerName(whoFrom.getInfo());
+        if(gameState->getTurn() == 2){
+            gameState->setCurrentStatus(CurrentStatus::SHOW_HAND);
+        }
+        gameState->endTurn();
+    }
+    gameState->renderNow();
 }
 
 void GameController::startGame(){
-    gameState->setRenderMode(RenderMode::GET_NAME);
+    gameState->setCurrentStatus(CurrentStatus::GET_NAME);
+    gameState->renderNow();
 }

@@ -5,20 +5,24 @@
 #include "player.h"
 #include "subject.h"
 
-enum class RenderMode{BOARD, HAND, GET_NAME};
+enum class CurrentStatus{SHOW_BOARD, SHOW_HAND, GET_NAME};
 
 class GameState: public Subject<void>{
         std::shared_ptr<Player> p1;
         std::shared_ptr<Player> p2;
-        RenderMode renderMode;
+        CurrentStatus status;
         int currentTurn;
     public:
         GameState();
         std::shared_ptr<const Player> getPlayer1();
         std::shared_ptr<const Player> getPlayer2();
-        void setRenderMode(RenderMode mode);
+        void setCurrentStatus(CurrentStatus status);
         void getInfo() const override;
-        RenderMode getRenderMode();
+        int getTurn();
+        void endTurn();
+        void setCurrentPlayerName(std::string newName);
+        void renderNow();
+        CurrentStatus getCurrentStatus();
         ~GameState();
 };
 

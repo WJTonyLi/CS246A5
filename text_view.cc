@@ -1,5 +1,6 @@
 #include "text_view.h"
 
+using std::cout;
 using std::endl;
 using std::string;
 using std::getline;
@@ -17,13 +18,9 @@ std::string TextView::getInfo() const{
 }
 
 void TextView::notify(Subject<void> &whoFrom){
-    if(gameState->getRenderMode() == RenderMode::GET_NAME){
-        string name1;
-        os<<"Enter P1 name:"<<endl;
-        is>>name1;
-        string name2;
-        os<<"Enter P2 name:"<<endl;
-        is>>name2;
+    if(gameState->getCurrentStatus() == CurrentStatus::GET_NAME){
+        cout<<"Please enter Player "<<gameState->getTurn()<<" name: ";
+        notifyObservers();
     }
 }
 

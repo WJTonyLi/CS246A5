@@ -11,6 +11,7 @@ class TextView: public Subject<std::string>, public Observer<void>{
         std::istream& is;
         std::ostream& os;
         std::shared_ptr<GameState> gameState;
+        std::string lastestCommand;
     public:
         TextView(std::istream& is, std::ostream& os, std::shared_ptr<GameState> gameState);
         std::string getInfo() const override;

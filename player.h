@@ -16,6 +16,8 @@ class Player{
     public:
         Player();
         void setName(std::string name);
+        int getLife() const;
+        int getMagic() const;
         std::string getName() const;
         ~Player();
 };

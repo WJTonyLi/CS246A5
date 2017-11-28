@@ -8,14 +8,14 @@
 enum class CurrentStatus{SHOW_BOARD, SHOW_HAND, GET_NAME};
 
 class GameState: public Subject<void>{
-        std::shared_ptr<Player> p1;
-        std::shared_ptr<Player> p2;
+        Player p1;
+        Player p2;
         CurrentStatus status;
         int currentTurn;
     public:
         GameState();
-        std::shared_ptr<const Player> getPlayer1();
-        std::shared_ptr<const Player> getPlayer2();
+        const Player& getPlayer1();
+        const Player& getPlayer2();
         void setCurrentStatus(CurrentStatus status);
         void getInfo() const override;
         int getTurn();

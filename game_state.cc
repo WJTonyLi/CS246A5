@@ -2,14 +2,14 @@
 
 using std::shared_ptr;
 
-GameState::GameState():p1{new Player()},p2{new Player()}, status{CurrentStatus::GET_NAME}, currentTurn{1}{}
+GameState::GameState():p1{},p2{}, status{CurrentStatus::GET_NAME}, currentTurn{1}{}
 
-shared_ptr<const Player> GameState::getPlayer1(){
-    return shared_ptr<const Player>(p1);
+const Player& GameState::getPlayer1(){
+    return p1;
 }
 
-shared_ptr<const Player> GameState::getPlayer2(){
-    return shared_ptr<const Player>(p2);
+const Player& GameState::getPlayer2(){
+    return p2;
 }
 
 void GameState::setCurrentStatus(CurrentStatus status){
@@ -33,10 +33,10 @@ void GameState::endTurn(){
 
 void GameState::setCurrentPlayerName(std::string newName){
     if(currentTurn == 1){
-        p1->setName(newName);
+        p1.setName(newName);
     }
     else if(currentTurn == 2){
-        p2->setName(newName);
+        p2.setName(newName);
     }
 }
 

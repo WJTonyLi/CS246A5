@@ -1,15 +1,18 @@
 #include <iostream>
+#include <memory>
 #include "game_state.h"
-#include "base_minion_card.h"
-#include "spell_card.h"
+#include "game_controller.h"
+#include "text_view.h"
 
 using namespace std;
 
 int main()
 {
     //this is just code to test my stuff, ignore this for now
-    GameState gameState{};
-    BaseMinionCard minion(1,1);
-    SpellCard spell{};
+    shared_ptr<GameState> gs(new GameState());
+    shared_ptr<GameController> gc(new GameController(gs));
+    shared_ptr<TextView> tv(new TextView(cin, cout, gs));
+    tv->attach(gc);
+    tv->test();
     return 0;
 }

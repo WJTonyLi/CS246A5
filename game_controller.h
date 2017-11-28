@@ -10,6 +10,7 @@ class GameController: public Observer<std::string>{
     public:
         GameController(std::shared_ptr<GameState> gameState);
         void notify(Subject<std::string> &whoFrom) override;
+        void startGame();
 };
 
 #endif

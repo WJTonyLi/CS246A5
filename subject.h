@@ -1,5 +1,5 @@
 #ifndef SUBJECT_H
-#define SUBJECT_Hzz
+#define SUBJECT_H
 #include <memory>
 #include <vector>
 #include "observer.h"

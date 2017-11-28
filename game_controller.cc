@@ -7,3 +7,7 @@ GameController::GameController(std::shared_ptr<GameState> gameState):gameState{g
 void GameController::notify(Subject<std::string> &whoFrom){
     std::cout<<whoFrom.getInfo()<<std::endl;
 }
+
+void GameController::startGame(){
+    gameState->setRenderMode(RenderMode::GET_NAME);
+}

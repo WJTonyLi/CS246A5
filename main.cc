@@ -6,8 +6,42 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
+    string deckFile1 = default.deck;
+    string deckFile2 = default.deck;
+    string initFile;
+    bool testMode = false;
+    bool graphics = false;
+
+    for (int i = 1; i < argc; i++) {
+        if (argv[i] == '-deck1') {
+            if (i + 1 < argc) {
+                deckFile1 = argv[i++];
+            } else {
+                cerr << "-deck1 requires one argument" << endl;
+            }
+        } else if (argv[i] == '-deck2') {
+            if (i + 1 < argc) {
+                deckFile2 = argv[i++];
+            } else {
+                cerr << "-deck2 requires one argument" << endl;
+            }
+        } else if (argv[i] == '-init') {
+            if (i + 1 < argc) {
+                string initFile = argv[i++];
+            } else {
+                cerr << "-init requires one argument" << endl;
+            }
+        } else if (argv[i] == '-testing') {
+            testMode = true;
+        } else if (argv[i] == '-graphics') {
+            graphics = true;
+        } else {
+            cerr << "Invalid argument" << endl;
+        }
+    }
+
     //this is just code to test my stuff, ignore this for now
     shared_ptr<GameState> gs(new GameState());
     shared_ptr<TextView> tv(new TextView(cin, cout, gs));

@@ -8,7 +8,7 @@
 class SpellCard:public AbstractCard{
         std::shared_ptr<ActivatedEffect> effect;
     public:
-        SpellCard();
+        SpellCard(std::string name, int cost, Player& player, std::shared_ptr<ActivatedEffect> effect);
         ~SpellCard();
 };
 

@@ -8,8 +8,16 @@ int Player::getLife() const{
     return life;
 }
 
+int Player::setLife(int life){
+    this->life = life;
+}
+
 int Player::getMagic() const{
     return magic;
+}
+
+int Player::setMagic(int magic){
+    this->magic = magic;
 }
 
 string Player::getName() const{

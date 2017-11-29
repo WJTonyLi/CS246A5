@@ -7,7 +7,7 @@ class AbstractMinionCard:public AbstractCard{
         int attack;
         int defense;
     public:
-        AbstractMinionCard(int attack, int defense);
+        AbstractMinionCard(std::string name, int cost, Player& player, int attack, int defense);
         virtual ~AbstractMinionCard();
 };
 

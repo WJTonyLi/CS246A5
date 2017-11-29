@@ -1,4 +1,4 @@
-#include cli_view.h
+#include "cli_view.h"
 
 using std::getline;
 using std::istream;
@@ -11,7 +11,7 @@ string CliView::getInfo() const {
 }
 
 void CliView::readCommands() {
-    while (getline(is, command) {
+    while (getline(is, command)) {
         notifyObservers();    
     }
 }

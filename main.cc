@@ -17,27 +17,28 @@ int main(int argc, char *argv[])
     bool graphics = false;
 
     for (int i = 1; i < argc; i++) {
-        if (argv[i] == "-deck1") {
+        string arg = argv[i];
+        if (arg == "-deck1") {
             if (i + 1 < argc) {
                 deckFile1 = argv[i++];
             } else {
                 cerr << "-deck1 requires one argument" << endl;
             }
-        } else if (argv[i] == "-deck2") {
+        } else if (arg == "-deck2") {
             if (i + 1 < argc) {
                 deckFile2 = argv[i++];
             } else {
                 cerr << "-deck2 requires one argument" << endl;
             }
-        } else if (argv[i] == "-init") {
+        } else if (arg == "-init") {
             if (i + 1 < argc) {
                 string initFile = argv[i++];
             } else {
                 cerr << "-init requires one argument" << endl;
             }
-        } else if (argv[i] == "-testing") {
+        } else if (arg == "-testing") {
             testMode = true;
-        } else if (argv[i] == "-graphics") {
+        } else if (arg == "-graphics") {
             graphics = true;
         } else {
             cerr << "Invalid argument" << endl;
@@ -48,7 +49,6 @@ int main(int argc, char *argv[])
     shared_ptr<GameState> gs(new GameState());
     shared_ptr<TextView> tv(new TextView(cout, gs));
     shared_ptr<GameController> gc(new GameController(gs));
-    tv->attach(gc);
     gs->attach(tv);
     gc->startGame();
 
@@ -56,6 +56,7 @@ int main(int argc, char *argv[])
     if (initFile == "") {
         if (ifstream file{initFile}) {
             CliView initInput{file};
+            initInput.attach(gc);
             initInput.readCommands();
         } else {
         cerr << "File for -init not found" << endl;
@@ -64,6 +65,7 @@ int main(int argc, char *argv[])
 
     // Get user input
     CliView userInput{cin};
+    userInput.attach(gc);
     userInput.readCommands();
 
     return 0;

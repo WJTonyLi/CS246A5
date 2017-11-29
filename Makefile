@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++14 -Wall -MMD -Werror=vla
 EXEC = a5-sorcery
-OBJECTS = main.o game_state.o text_view.o cli_view.o game_controller.o ascii_graphics.o player.o subject.o observer.o
+OBJECTS = main.o game_state.o text_view.o cli_view.o game_controller.o ascii_graphics.o player.o
 DEPENDS=${OBJECTS:.o=.d}
 
 ${EXEC}: ${OBJECTS}

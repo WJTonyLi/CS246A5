@@ -7,7 +7,7 @@
 #include "subject.h"
 #include "game_state.h"
 
-class TextView: public Subject<std::string>, public Observer<void>{
+class TextView: public Observer<void>{
         std::ostream& os;
         std::shared_ptr<GameState> gameState;
     public:

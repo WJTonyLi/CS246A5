@@ -1,10 +1,13 @@
 #include <iostream>
+#include <sstream>
 #include "game_controller.h"
 #include "subject.h"
 
 // debug
 using std::cout;
 using std::endl;
+using std::string;
+using std::istringstream;
 
 GameController::GameController(std::shared_ptr<GameState> gameState):gameState{gameState}{}
 
@@ -74,11 +77,10 @@ void GameController::notify(Subject<std::string> &whoFrom){
     } else if (command == "hand") {
         cout << command << endl;
     } else if (command == "board") {
-        cout << command << endl;
+        gameState->renderNow();
     } else {
         // throw invalidCommand
     }
-    gameState->renderNow();
 }
 
 void GameController::startGame(){

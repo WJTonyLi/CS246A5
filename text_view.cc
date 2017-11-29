@@ -42,7 +42,6 @@ static void displayCards(vector<card_template_t> cards, ostream &os){
 void TextView::notify(Subject<void> &whoFrom){
     if(gameState->getCurrentStatus() == CurrentStatus::GET_NAME){
         os<<"Please enter Player "<<gameState->getTurn()<<" name: ";
-        notifyObservers();
     }
     else if(gameState->getCurrentStatus() == CurrentStatus::SHOW_BOARD){
         card_template_t card;

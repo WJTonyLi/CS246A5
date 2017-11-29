@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include "cli_view.h"
 #include "game_state.h"
 #include "game_controller.h"
 #include "text_view.h"
@@ -49,5 +50,20 @@ int main(int argc, char *argv[])
     tv->attach(gc);
     gs->attach(tv);
     gc->startGame();
+
+    // Handle -init option
+    if (initFile) {
+        if (ifstream file{initFile}) {
+            CliView initInput{file};
+            initInput.readCommands();
+        } else {
+        cerr << "File for -init not found" << endl;
+        }
+    }
+
+    // Get user input
+    CliView userInput{cin};
+    userInput.readCommands();
+
     return 0;
 }

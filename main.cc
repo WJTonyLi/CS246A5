@@ -16,23 +16,23 @@ int main(int argc, char *argv[])
     bool testMode = false;
     bool graphics = false;
 
-    for (int i = 1; i < argc; i++) {
+    for (int i = 1; i < argc; ++i) {
         string arg = argv[i];
         if (arg == "-deck1") {
             if (i + 1 < argc) {
-                deckFile1 = argv[i++];
+                deckFile1 = argv[++i];
             } else {
                 cerr << "-deck1 requires one argument" << endl;
             }
         } else if (arg == "-deck2") {
             if (i + 1 < argc) {
-                deckFile2 = argv[i++];
+                deckFile2 = argv[++i];
             } else {
                 cerr << "-deck2 requires one argument" << endl;
             }
         } else if (arg == "-init") {
             if (i + 1 < argc) {
-                string initFile = argv[i++];
+                initFile = argv[++i];
             } else {
                 cerr << "-init requires one argument" << endl;
             }

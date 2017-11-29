@@ -12,15 +12,15 @@ using std::istringstream;
 GameController::GameController(std::shared_ptr<GameState> gameState):gameState{gameState}{}
 
 void GameController::notify(Subject<std::string> &whoFrom){
+    istringstream iss(whoFrom.getInfo());
     if(gameState->getCurrentStatus() == CurrentStatus::GET_NAME){
-        gameState->setCurrentPlayerName(whoFrom.getInfo());
+        gameState->setCurrentPlayerName(iss.str());
         if(gameState->getTurn() == 2){
             gameState->setCurrentStatus(CurrentStatus::SHOW_BOARD);
         }
         gameState->endTurn();
         gameState->renderNow();
     } else {
-        istringstream iss(whoFrom.getInfo());
         string command;
         iss >> command;
         if (command == "help") {

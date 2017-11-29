@@ -18,6 +18,7 @@ void GameController::notify(Subject<std::string> &whoFrom){
             gameState->setCurrentStatus(CurrentStatus::SHOW_BOARD);
         }
         gameState->endTurn();
+        gameState->renderNow();
     } else {
         istringstream iss(whoFrom.getInfo());
         string command;

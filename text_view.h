@@ -3,18 +3,14 @@
 
 #include <memory>
 #include <iostream>
-#include "subject.h"
 #include "observer.h"
 #include "game_state.h"
 
 class TextView: public Subject<std::string>, public Observer<void>{
-        std::istream& is;
         std::ostream& os;
         std::shared_ptr<GameState> gameState;
-        std::string lastestCommand;
     public:
-        TextView(std::istream& is, std::ostream& os, std::shared_ptr<GameState> gameState);
-        std::string getInfo() const override;
+        TextView(std::ostream& os, std::shared_ptr<GameState> gameState);
         void notify(Subject<void> &whoFrom) override;
         ~TextView();
 };

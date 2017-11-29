@@ -16,7 +16,6 @@ void GameController::notify(Subject<std::string> &whoFrom){
         }
         gameState->endTurn();
     }
-    gameState->renderNow();
 
     istringstream iss(whoFrom.getInfo());
     string command;
@@ -79,6 +78,7 @@ void GameController::notify(Subject<std::string> &whoFrom){
     } else {
         // throw invalidCommand
     }
+    gameState->renderNow();
 }
 
 void GameController::startGame(){

@@ -9,8 +9,8 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-    string deckFile1 = default.deck;
-    string deckFile2 = default.deck;
+    string deckFile1 = "default.deck";
+    string deckFile2 = "default.deck";
     string initFile;
     bool testMode = false;
     bool graphics = false;

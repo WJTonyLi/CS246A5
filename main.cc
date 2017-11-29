@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     gc->startGame();
 
     // Handle -init option
-    if (initFile == "") {
+    if (initFile != "") {
         if (ifstream file{initFile}) {
             CliView initInput{file};
             initInput.attach(gc);

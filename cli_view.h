@@ -2,8 +2,9 @@
 #define CLI_VIEW_H
 
 #include <iostream>
+#include "subject.h"
 
-class CliView : public Subject {
+class CliView : public Subject<std::string> {
     std::istream& is;
     std::string command;
     public:

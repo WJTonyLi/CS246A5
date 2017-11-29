@@ -4,6 +4,7 @@
 #include <memory>
 #include <iostream>
 #include "observer.h"
+#include "subject.h"
 #include "game_state.h"
 
 class TextView: public Subject<std::string>, public Observer<void>{

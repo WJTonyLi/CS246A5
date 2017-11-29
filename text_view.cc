@@ -65,11 +65,11 @@ void TextView::notify(Subject<void> &whoFrom){
         p1Display.emplace_back(display_player_card(1, gameState->getPlayer1().getName(), gameState->getPlayer1().getLife(), gameState->getPlayer1().getMagic()));
         p1Display.emplace_back(CARD_TEMPLATE_EMPTY);
         p1Display.emplace_back(display_ritual("Placeholder", 1, 1, "Does nothing", 1));
-        p2Display.emplace_back(CARD_TEMPLATE_BORDER);
+        p2Display.emplace_back(display_ritual("Placeholder", 1, 1, "Does nothing", 1));
         p2Display.emplace_back(CARD_TEMPLATE_EMPTY);
         p2Display.emplace_back(display_player_card(2, gameState->getPlayer2().getName(), gameState->getPlayer2().getLife(), gameState->getPlayer2().getMagic()));
         p2Display.emplace_back(CARD_TEMPLATE_EMPTY);
-        p2Display.emplace_back(display_ritual("Placeholder", 1, 1, "Does nothing", 1));
+        p2Display.emplace_back(CARD_TEMPLATE_BORDER);
         displayTopBorder(os);
         displayCards(p1Display, os);
         displayCards(p1Minions, os);

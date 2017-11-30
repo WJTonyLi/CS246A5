@@ -3,6 +3,7 @@
 
 #include <memory>
 #include "abstract_card.h"
+#include "player.h"
 
 class AbstractMinionCard:public AbstractCard{
         int attack;
@@ -10,6 +11,10 @@ class AbstractMinionCard:public AbstractCard{
     public:
         AbstractMinionCard(std::string name, int cost, std::shared_ptr<Player> player, int attack, int defense);
         virtual ~AbstractMinionCard();
+        int getAttack() const;
+        void setAttack(int value);
+        int getDefense() const;
+        void setDefense(int value);
         virtual void attackEnemy(Player& player);
         virtual void attackEnemy(AbstractMinionCard& minion);
 };

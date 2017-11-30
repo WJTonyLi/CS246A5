@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include <memory>
 #include <string>
 #include <vector>
 #include "abstract_card.h"
@@ -13,18 +14,22 @@ class Player{
         int life;
         int magic;
         std::string name;
-        std::vector<AbstractCard> deck;
-        std::vector<AbstractCard> hand;
-        std::vector<AbstractMinionCard> field;
-        std::vector<AbstractMinionCard> graveyard;
+        std::vector<std::shared_ptr<AbstractCard>> deck;
+        std::vector<std::shared_ptr<AbstractCard>> hand;
+        std::vector<std::shared_ptr<AbstractMinionCard>> field;
+        std::vector<std::shared_ptr<AbstractMinionCard>> graveyard;
     public:
         Player();
+        Player(std::string deckFileName);
         void setName(std::string name);
         int getLife() const;
-        int setLife(int life);
+        void setLife(int life);
         int getMagic() const;
-        int setMagic(int magic);
+        void setMagic(int magic);
         std::string getName() const;
+        void drawACard();
+        void playCard(int index);
+        void startTurn();
         ~Player();
 };
 

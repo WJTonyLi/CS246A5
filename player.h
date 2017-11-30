@@ -30,6 +30,8 @@ class Player{
         void drawACard();
         void playCard(int index);
         void startTurn();
+        const std::vector<std::shared_ptr<AbstractCard>> getDeck() const;
+        const std::vector<std::shared_ptr<AbstractCard>> getHand() const;
         ~Player();
 };
 

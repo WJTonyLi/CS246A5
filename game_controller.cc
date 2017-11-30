@@ -76,7 +76,9 @@ void GameController::notify(Subject<std::string> &whoFrom){
                 // throw invalidCommand
             }
         } else if (command == "hand") {
-            cout << command << endl;
+            gameState->setCurrentStatus(CurrentStatus::SHOW_HAND);
+            gameState->renderNow();
+            gameState->setCurrentStatus(CurrentStatus::SHOW_BOARD);
         } else if (command == "board") {
             gameState->renderNow();
         } else {

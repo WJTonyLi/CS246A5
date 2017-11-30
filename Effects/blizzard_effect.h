@@ -4,6 +4,10 @@
 #include <string>
 #include "../activated_effect.h"
 
-class BlizzardEffect: public ActivatedEffect{};
+class BlizzardEffect: public ActivatedEffect{
+    public:
+        BlizzardEffect();
+        ~BlizzardEffect();
+};
 
 #endif

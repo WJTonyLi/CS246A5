@@ -1,11 +1,19 @@
 #include "player.h"
 #include "spell_card.h"
+#include "Effects/blizzard_effect.h"
 
 using std::string;
+using std::shared_ptr;
 
-Player::Player():life{20}, magic{3}, name{""}, deck{}, hand{}, field{}, graveyard{}{}
+Player::Player():life{20}, magic{3}, name{""}, deck{}, hand{}, field{}, graveyard{}{
+    deck.emplace_back(shared_ptr<SpellCard>(new SpellCard("Blizzard", 3, shared_ptr<Player>(this), shared_ptr<ActivatedEffect>(new BlizzardEffect()))));
+    deck.emplace_back(shared_ptr<SpellCard>(new SpellCard("Blizzard", 3, shared_ptr<Player>(this), shared_ptr<ActivatedEffect>(new BlizzardEffect()))));
+    deck.emplace_back(shared_ptr<SpellCard>(new SpellCard("Blizzard", 3, shared_ptr<Player>(this), shared_ptr<ActivatedEffect>(new BlizzardEffect()))));
+    hand.emplace_back(shared_ptr<SpellCard>(new SpellCard("Blizzard", 3, shared_ptr<Player>(this), shared_ptr<ActivatedEffect>(new BlizzardEffect()))));
+    hand.emplace_back(shared_ptr<SpellCard>(new SpellCard("Blizzard", 3, shared_ptr<Player>(this), shared_ptr<ActivatedEffect>(new BlizzardEffect()))));
+}
 
-Player::Player(std::string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}, field{}, graveyard{}{
+Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}, field{}, graveyard{}{
     //TODO initialize deck base on deckFileName.deck
 }
 
@@ -49,6 +57,14 @@ void Player::playCard(int index){
 void Player::startTurn(){
     magic++;
     drawACard();
+}
+
+const std::vector<std::shared_ptr<AbstractCard>> Player::getDeck() const{
+    return deck;
+}
+
+const std::vector<std::shared_ptr<AbstractCard>> Player::getHand() const{
+    return hand;
 }
 
 Player::~Player(){}

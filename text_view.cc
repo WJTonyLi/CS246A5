@@ -1,6 +1,9 @@
 #include <vector>
 #include "text_view.h"
 #include "ascii_graphics.h"
+#include <iostream>
+
+using namespace std;
 
 using std::endl;
 using std::string;
@@ -29,13 +32,19 @@ static void displayBottomBorder(ostream &os){
     os<<EXTERNAL_BORDER_CHAR_BOTTOM_RIGHT<<endl;
 }
 
-static void displayCards(vector<card_template_t> cards, ostream &os){
-    for(int x = 0; x < int(cards.at(0).size()); x++){
-        os<<EXTERNAL_BORDER_CHAR_UP_DOWN;
-        for(int y = 0; y < int(cards.size()); y++){
-            os<<cards.at(y).at(x);
+static void displayCards(vector<card_template_t> cards, ostream &os, bool drawSideBorders){
+    if(cards.size() > 0){
+        for(int x = 0; x < int(cards.at(0).size()); x++){
+            if(drawSideBorders){
+                os<<EXTERNAL_BORDER_CHAR_UP_DOWN;
+            }
+            for(int y = 0; y < int(cards.size()); y++){
+                os<<cards.at(y).at(x);
+            }
+            if(drawSideBorders){
+                os<<EXTERNAL_BORDER_CHAR_UP_DOWN<<endl;
+            }
         }
-        os<<EXTERNAL_BORDER_CHAR_UP_DOWN<<endl;
     }
 }
 
@@ -64,14 +73,22 @@ void TextView::notify(Subject<void> &whoFrom){
         p2Display.emplace_back(CARD_TEMPLATE_EMPTY);
         p2Display.emplace_back(CARD_TEMPLATE_BORDER);
         displayTopBorder(os);
-        displayCards(p1Display, os);
-        displayCards(p1Minions, os);
+        displayCards(p1Display, os, true);
+        displayCards(p1Minions, os, true);
         for(int x = 0; x < int(CENTRE_GRAPHIC.size()); x++){
             os<<CENTRE_GRAPHIC.at(x)<<endl;
         }
-        displayCards(p2Minions, os);
-        displayCards(p2Display, os);
+        displayCards(p2Minions, os, true);
+        displayCards(p2Display, os, true);
         displayBottomBorder(os);
+    }
+    else if(gameState->getCurrentStatus() == CurrentStatus::SHOW_HAND){
+        vector<shared_ptr<AbstractCard>> hand = gameState->getCurrentPlayer().getHand();
+        vector<card_template_t> handGraphics;
+        for(auto it : hand){
+            handGraphics.emplace_back(it->getGraphics());
+        }
+        displayCards(handGraphics, os, true);
     }
 }
 

@@ -9,6 +9,8 @@ class AbstractMinionCard:public AbstractCard{
     public:
         AbstractMinionCard(std::string name, int cost, Player& player, int attack, int defense);
         virtual ~AbstractMinionCard();
+        virtual void attackEnemy(Player& player);
+        virtual void attackEnemy(AbstractMinionCard& minion);
 };
 
 #endif

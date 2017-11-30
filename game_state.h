@@ -16,6 +16,7 @@ class GameState: public Subject<void>{
         GameState();
         const Player& getPlayer1();
         const Player& getPlayer2();
+        const Player& getCurrentPlayer();
         void setCurrentStatus(CurrentStatus status);
         void getInfo() const override;
         int getTurn();

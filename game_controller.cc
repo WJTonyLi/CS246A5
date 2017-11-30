@@ -26,7 +26,8 @@ void GameController::notify(Subject<std::string> &whoFrom){
         if (command == "help") {
             cout << command << endl;
         } else if (command == "end") {
-            cout << command << endl;
+            gameState->endTurn();
+            gameState->renderNow();
         } else if (command == "quit") {
             cout << command << endl;
         } else if (command == "draw") {

@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "game_state.h"
 
 using std::shared_ptr;
@@ -10,6 +11,18 @@ const Player& GameState::getPlayer1(){
 
 const Player& GameState::getPlayer2(){
     return p2;
+}
+
+const Player& GameState::getCurrentPlayer(){
+    if(currentTurn == 1){
+        return p1;
+    }
+    else if(currentTurn == 2){
+        return p2;
+    }
+    else{
+        throw std::runtime_error("Current player is not 1 or 2.");
+    }
 }
 
 void GameState::setCurrentStatus(CurrentStatus status){
@@ -25,9 +38,15 @@ int GameState::getTurn(){
 void GameState::endTurn(){
     if(currentTurn == 1){
         currentTurn = 2;
+        if(status != CurrentStatus::GET_NAME){
+            p2.startTurn();
+        }
     }
     else if(currentTurn == 2){
         currentTurn = 1;
+        if(status != CurrentStatus::GET_NAME){
+            p1.startTurn();
+        }
     }
 }
 

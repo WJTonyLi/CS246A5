@@ -73,9 +73,9 @@ const std::vector<std::shared_ptr<AbstractMinionCard>> Player::getField(){
 }
 
 void Player::play(GameState *gameState, int i){
-    if(int((hand.size()) > i) && (magic >= hand.at(i)->getCost())){
-        shared_ptr<AbstractCard> cardToPlay = hand.at(i);
-        hand.erase(hand.begin() + i);
+    if(int((hand.size()) >= i && i >= 1) && (magic >= hand.at(i-1)->getCost())){
+        shared_ptr<AbstractCard> cardToPlay = hand.at(i-1);
+        hand.erase(hand.begin() + i-1);
         magic -= cardToPlay->getCost();
         try{
             cardToPlay->play(gameState);
@@ -86,7 +86,7 @@ void Player::play(GameState *gameState, int i){
             throw e;
         }
     }
-    else if(magic < hand.at(i)->getCost()){
+    else if(magic < hand.at(i-1)->getCost()){
         throw invalid_argument("Not enough magic to play that card.");
     }
     else{

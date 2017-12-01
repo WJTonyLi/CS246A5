@@ -1,19 +1,23 @@
 #include <stdexcept>
 #include "game_state.h"
+#include <iostream>
 
+using namespace std;
+using std::string;
 using std::shared_ptr;
+using std::make_shared;
 
-GameState::GameState():p1{},p2{}, status{CurrentStatus::GET_NAME}, currentTurn{1}{}
+GameState::GameState():p1{make_shared<Player>()}, p2{make_shared<Player>()}, status{CurrentStatus::GET_NAME}, currentTurn{1}{}
 
-const Player& GameState::getPlayer1(){
+std::shared_ptr<Player> GameState::getPlayer1(){
     return p1;
 }
 
-const Player& GameState::getPlayer2(){
+std::shared_ptr<Player> GameState::getPlayer2(){
     return p2;
 }
 
-const Player& GameState::getCurrentPlayer(){
+std::shared_ptr<Player> GameState::getCurrentPlayer(){
     if(currentTurn == 1){
         return p1;
     }
@@ -39,23 +43,23 @@ void GameState::endTurn(){
     if(currentTurn == 1){
         currentTurn = 2;
         if(status != CurrentStatus::GET_NAME){
-            p2.startTurn();
+            p2->startTurn();
         }
     }
     else if(currentTurn == 2){
         currentTurn = 1;
         if(status != CurrentStatus::GET_NAME){
-            p1.startTurn();
+            p1->startTurn();
         }
     }
 }
 
 void GameState::setCurrentPlayerName(std::string newName){
     if(currentTurn == 1){
-        p1.setName(newName);
+        p1->setName(newName);
     }
     else if(currentTurn == 2){
-        p2.setName(newName);
+        p2->setName(newName);
     }
 }
 
@@ -65,6 +69,15 @@ CurrentStatus GameState::getCurrentStatus(){
 
 void GameState::renderNow(){
     notifyObservers();
+}
+
+void GameState::play(int i){
+    cout<<"GAMESTATE PLAY CALLED"<<endl;
+    getCurrentPlayer()->play(this, i);
+}
+
+void GameState::play(int i, int p, string t){
+    getCurrentPlayer()->play(this, i, p ,t);
 }
 
 GameState::~GameState(){}

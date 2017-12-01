@@ -46,9 +46,9 @@ int main(int argc, char *argv[])
     }
 
     //this is just code to test my stuff, ignore this for now
-    shared_ptr<GameState> gs(new GameState());
-    shared_ptr<TextView> tv(new TextView(cout, gs));
-    shared_ptr<GameController> gc(new GameController(gs));
+    shared_ptr<GameState> gs(make_shared<GameState>());
+    shared_ptr<TextView> tv(make_shared<TextView>(cout, gs));
+    shared_ptr<GameController> gc(make_shared<GameController>(gs));
     gs->attach(tv);
     gc->startGame();
 

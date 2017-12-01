@@ -1,9 +1,8 @@
 #include <vector>
 #include "text_view.h"
+#include "abstract_card.h"
 #include "ascii_graphics.h"
-#include <iostream>
-
-using namespace std;
+#include "abstract_minion_card.h"
 
 using std::endl;
 using std::string;
@@ -59,17 +58,27 @@ void TextView::notify(Subject<void> &whoFrom){
         vector<card_template_t> p2Minions;
         vector<card_template_t> p2Display;
         for(int x = 0; x < 5; x++){
-            p1Minions.emplace_back(display_minion_no_ability("Placeholder", 1, 1, 1));
-            p2Minions.emplace_back(display_minion_no_ability("Placeholder", 1, 1, 1));
+            if(x < gameState->getPlayer1()->getField().size()){
+                p1Minions.emplace_back(gameState->getPlayer1()->getField().at(x)->getGraphics());
+            }
+            else{
+                p1Minions.emplace_back(CARD_TEMPLATE_BORDER);
+            }
+            if(x < gameState->getPlayer2()->getField().size()){
+                p2Minions.emplace_back(gameState->getPlayer2()->getField().at(x)->getGraphics());
+            }
+            else{
+                p2Minions.emplace_back(CARD_TEMPLATE_BORDER);
+            }
         }
         p1Display.emplace_back(CARD_TEMPLATE_BORDER);
         p1Display.emplace_back(CARD_TEMPLATE_EMPTY);
-        p1Display.emplace_back(display_player_card(1, gameState->getPlayer1().getName(), gameState->getPlayer1().getLife(), gameState->getPlayer1().getMagic()));
+        p1Display.emplace_back(display_player_card(1, gameState->getPlayer1()->getName(), gameState->getPlayer1()->getLife(), gameState->getPlayer1()->getMagic()));
         p1Display.emplace_back(CARD_TEMPLATE_EMPTY);
         p1Display.emplace_back(display_ritual("Placeholder", 1, 1, "Does nothing", 1));
         p2Display.emplace_back(display_ritual("Placeholder", 1, 1, "Does nothing", 1));
         p2Display.emplace_back(CARD_TEMPLATE_EMPTY);
-        p2Display.emplace_back(display_player_card(2, gameState->getPlayer2().getName(), gameState->getPlayer2().getLife(), gameState->getPlayer2().getMagic()));
+        p2Display.emplace_back(display_player_card(2, gameState->getPlayer2()->getName(), gameState->getPlayer2()->getLife(), gameState->getPlayer2()->getMagic()));
         p2Display.emplace_back(CARD_TEMPLATE_EMPTY);
         p2Display.emplace_back(CARD_TEMPLATE_BORDER);
         displayTopBorder(os);
@@ -83,7 +92,7 @@ void TextView::notify(Subject<void> &whoFrom){
         displayBottomBorder(os);
     }
     else if(gameState->getCurrentStatus() == CurrentStatus::SHOW_HAND){
-        vector<shared_ptr<AbstractCard>> hand = gameState->getCurrentPlayer().getHand();
+        vector<shared_ptr<AbstractCard>> hand = gameState->getCurrentPlayer()->getHand();
         vector<card_template_t> handGraphics;
         for(auto it : hand){
             handGraphics.emplace_back(it->getGraphics());

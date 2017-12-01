@@ -4,9 +4,8 @@
 #include <memory>
 #include <string>
 #include <vector>
-#include "abstract_card.h"
-#include "abstract_minion_card.h"
 
+class GameState;
 class AbstractCard;
 class AbstractMinionCard;
 
@@ -28,10 +27,13 @@ class Player{
         void setMagic(int magic);
         std::string getName() const;
         void drawACard();
-        void playCard(int index);
         void startTurn();
         const std::vector<std::shared_ptr<AbstractCard>> getDeck() const;
         const std::vector<std::shared_ptr<AbstractCard>> getHand() const;
+        const std::vector<std::shared_ptr<AbstractMinionCard>> getField() const;
+        void play(GameState *gameState, int i);
+        void play(GameState *gameState, int i, int p, std::string t);
+        void addMinionToField(std::shared_ptr<AbstractMinionCard> minion);
         ~Player();
 };
 

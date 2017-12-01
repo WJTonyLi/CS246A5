@@ -54,11 +54,14 @@ void GameController::notify(Subject<std::string> &whoFrom){
         } else if (command == "play") {
             int i;
             if (iss >> i) {
-                int p, t;
+                int p;
+                string t;
                 if (iss >> p && iss >> t) {
                     cout << command << " " << i << " " << p << " " << t << endl;
+                    gameState->play(i, p, t);
                 } else {
                     cout << command << " " << i << endl;
+                    gameState->play(i);
                 }
             } else {
                 // throw invalidCommand
@@ -80,6 +83,7 @@ void GameController::notify(Subject<std::string> &whoFrom){
             gameState->renderNow();
             gameState->setCurrentStatus(CurrentStatus::SHOW_BOARD);
         } else if (command == "board") {
+            gameState->setCurrentStatus(CurrentStatus::SHOW_BOARD);
             gameState->renderNow();
         } else {
             // throw invalidCommand

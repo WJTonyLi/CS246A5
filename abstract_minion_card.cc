@@ -1,8 +1,9 @@
 #include "abstract_minion_card.h"
+#include "player.h"
 
-AbstractMinionCard::AbstractMinionCard(std::string name, int cost, std::shared_ptr<Player> player, int attack, int defense): AbstractCard(name, cost, player), attack{attack}, defense{defense}{}
+using std::shared_ptr;
 
-AbstractMinionCard::~AbstractMinionCard(){}
+AbstractMinionCard::AbstractMinionCard(std::string name, int cost, Player *player, int attack, int defense):AbstractCard(name, cost, player), attack{attack}, defense{defense}, originalAttack{attack}, originalDefense{defense}{}
 
 int AbstractMinionCard::getAttack() const {
     return attack;
@@ -20,10 +21,10 @@ void AbstractMinionCard::setDefense(int value) {
     this->defense = value;
 }
 
-void AbstractMinionCard::attackEnemy(Player& player) {
-    int currentLife = player.getLife();
+void AbstractMinionCard::attackEnemy(Player *player) {
+    int currentLife = player->getLife();
     int newLife = currentLife - attack;
-    player.setLife(newLife);
+    player->setLife(newLife);
 }
 
 void AbstractMinionCard::attackEnemy(AbstractMinionCard& minion) {
@@ -33,3 +34,5 @@ void AbstractMinionCard::attackEnemy(AbstractMinionCard& minion) {
     minion.setDefense(newDefense);
     defense -= enemyAttack;
 }
+
+AbstractMinionCard::~AbstractMinionCard(){}

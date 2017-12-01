@@ -4,18 +4,22 @@
 #include <memory>
 #include <string>
 #include "ascii_graphics.h"
+#include "player.h"
 
-class Player;
+class GameState;
 
 class AbstractCard{
         std::string name;
         int cost;
-        std::shared_ptr<Player> owner;
+        Player *owner;
     public:
-        AbstractCard(std::string name, int cost, std::shared_ptr<Player> player);
-        std::string getName();
-        int getCost();
-        virtual card_template_t getGraphics() = 0;
+        AbstractCard(std::string name, int cost, Player *player);
+        std::string getName() const;
+        int getCost() const;
+        Player *getOwner();
+        virtual card_template_t getGraphics() const = 0;
+        virtual void play(GameState *gameState) = 0;
+        virtual void play(GameState *gameState, int p, std::string t) = 0;
         virtual ~AbstractCard();
 };
 

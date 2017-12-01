@@ -17,10 +17,12 @@ void GameController::notify(Subject<std::string> &whoFrom){
     if(gameState->getCurrentStatus() == CurrentStatus::GET_NAME){
         gameState->setCurrentPlayerName(iss.str());
         if(gameState->getTurn() == 2){
+            gameState->endTurn();
             gameState->setCurrentStatus(CurrentStatus::SHOW_BOARD);
+        } else {
+            gameState->endTurn();
+            gameState->renderNow();
         }
-        gameState->endTurn();
-        gameState->renderNow();
     } else {
         string command;
         iss >> command;
@@ -29,10 +31,10 @@ void GameController::notify(Subject<std::string> &whoFrom){
             gameState->renderNow();
         } else if (command == "end") {
             gameState->endTurn();
-            gameState->renderNow();
         } else if (command == "quit") {
             cout << command << endl;
         } else if (command == "draw" && testMode) {
+            gameState->getCurrentPlayer()->drawACard();
             cout << command << endl;
         } else if (command == "discard" && testMode) {
             int i;

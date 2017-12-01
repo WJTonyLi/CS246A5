@@ -7,8 +7,10 @@
 
 class GameController: public Observer<std::string>{
         std::shared_ptr<GameState> gameState;
+        bool testMode;
+        bool graphics;
     public:
-        GameController(std::shared_ptr<GameState> gameState);
+        GameController(std::shared_ptr<GameState> gameState, bool testMode = false, bool graphics = false);
         void notify(Subject<std::string> &whoFrom) override;
         void startGame();
 };

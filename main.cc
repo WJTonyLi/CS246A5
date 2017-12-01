@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
     //this is just code to test my stuff, ignore this for now
     shared_ptr<GameState> gs(new GameState());
     shared_ptr<TextView> tv(new TextView(cout, gs));
-    shared_ptr<GameController> gc(new GameController(gs));
+    shared_ptr<GameController> gc(new GameController(gs, testMode, graphics));
     gs->attach(tv);
     gc->startGame();
 

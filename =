@@ -60,8 +60,9 @@ void TextView::notify(Subject<void> &whoFrom){
         os << "          play card [target-player target-card] -- Play card, optionally targetting target-card owned by target-player." << endl;
         os << "          use minion [target-player target-card] -- Use minion's special ability, optionally targeting target-card owned by target player." << endl;
         os << "          inspect minion -- View a minion's card and all enchantments on that minion." << endl;
-        os << "          hand -- Describe all cards in your hand." << endl;
-        os << "          board -- Describe all cards in your board." << endl;
+        os << "          hand -- Describes all cards in your hand." << endl;
+        os << "          board -- Describes all cards in your board." << endl;
+
     } else if(gameState->getCurrentStatus() == CurrentStatus::SHOW_BOARD){
         card_template_t card;
         vector<card_template_t> p1Display;

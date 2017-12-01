@@ -5,7 +5,7 @@
 #include "player.h"
 #include "subject.h"
 
-enum class CurrentStatus{SHOW_BOARD, SHOW_HAND, GET_NAME};
+enum class CurrentStatus{SHOW_BOARD, SHOW_HAND, GET_NAME, HELP_MESSAGE};
 
 class GameState: public Subject<void>{
         Player p1;

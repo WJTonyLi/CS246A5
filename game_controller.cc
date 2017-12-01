@@ -1,3 +1,4 @@
+#include <exception>
 #include <iostream>
 #include <sstream>
 #include "game_controller.h"
@@ -5,6 +6,7 @@
 
 // debug
 using std::cout;
+using std::cerr;
 using std::endl;
 using std::string;
 using std::istringstream;
@@ -61,9 +63,25 @@ void GameController::notify(Subject<std::string> &whoFrom){
                 int p;
                 string t;
                 if (iss >> p && iss >> t) {
-                    gameState->play(i, p, t);
+                    try {
+                        gameState->play(i, p, t);
+                    }
+                    catch (std::out_of_range& e) {
+                        cerr << e.what() << endl;
+                    }
+                    catch (std::invalid_argument& e) {
+                        cerr << e.what() << endl;
+                    }
                 } else {
-                    gameState->play(i);
+                    try {
+                        gameState->play(i);
+                    }
+                    catch (std::out_of_range& e) {
+                        cerr << e.what() << endl;
+                    }
+                    catch (std::invalid_argument& e) {
+                        cerr << e.what() << endl;
+                    }
                 }
             } else {
                 // throw invalidCommand

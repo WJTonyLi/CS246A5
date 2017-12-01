@@ -1,8 +1,6 @@
 #include <stdexcept>
 #include "game_state.h"
-#include <iostream>
 
-using namespace std;
 using std::string;
 using std::shared_ptr;
 using std::make_shared;
@@ -72,7 +70,6 @@ void GameState::renderNow(){
 }
 
 void GameState::play(int i){
-    cout<<"GAMESTATE PLAY CALLED"<<endl;
     getCurrentPlayer()->play(this, i);
 }
 

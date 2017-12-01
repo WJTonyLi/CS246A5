@@ -28,9 +28,9 @@ class Player{
         std::string getName() const;
         void drawACard();
         void startTurn();
-        const std::vector<std::shared_ptr<AbstractCard>> getDeck() const;
-        const std::vector<std::shared_ptr<AbstractCard>> getHand() const;
-        const std::vector<std::shared_ptr<AbstractMinionCard>> getField() const;
+        const std::vector<std::shared_ptr<AbstractCard>> getDeck();
+        const std::vector<std::shared_ptr<AbstractCard>> getHand();
+        const std::vector<std::shared_ptr<AbstractMinionCard>> getField();
         void play(GameState *gameState, int i);
         void play(GameState *gameState, int i, int p, std::string t);
         void addMinionToField(std::shared_ptr<AbstractMinionCard> minion);

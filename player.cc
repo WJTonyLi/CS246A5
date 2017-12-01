@@ -60,15 +60,15 @@ void Player::startTurn(){
     drawACard();
 }
 
-const std::vector<std::shared_ptr<AbstractCard>> Player::getDeck() const{
+const std::vector<std::shared_ptr<AbstractCard>> Player::getDeck(){
     return deck;
 }
 
-const std::vector<std::shared_ptr<AbstractCard>> Player::getHand() const{
+const std::vector<std::shared_ptr<AbstractCard>> Player::getHand(){
     return hand;
 }
 
-const std::vector<std::shared_ptr<AbstractMinionCard>> Player::getField() const{
+const std::vector<std::shared_ptr<AbstractMinionCard>> Player::getField(){
     return field;
 }
 

@@ -9,7 +9,8 @@ using std::endl;
 using std::string;
 using std::istringstream;
 
-GameController::GameController(std::shared_ptr<GameState> gameState):gameState{gameState}{}
+GameController::GameController(std::shared_ptr<GameState> gameState, bool testMode, bool graphics):
+    gameState{gameState}, testMode{testMode}, graphics{graphics} {}
 
 void GameController::notify(Subject<std::string> &whoFrom){
     istringstream iss(whoFrom.getInfo());
@@ -24,15 +25,16 @@ void GameController::notify(Subject<std::string> &whoFrom){
         string command;
         iss >> command;
         if (command == "help") {
-            cout << command << endl;
+            gameState->setCurrentStatus(CurrentStatus::HELP_MESSAGE);
+            gameState->renderNow();
         } else if (command == "end") {
             gameState->endTurn();
             gameState->renderNow();
         } else if (command == "quit") {
             cout << command << endl;
-        } else if (command == "draw") {
+        } else if (command == "draw" && testMode) {
             cout << command << endl;
-        } else if (command == "discard") {
+        } else if (command == "discard" && testMode) {
             int i;
             if (iss >> i) {
                 cout << command << " " << i << endl;
@@ -57,10 +59,8 @@ void GameController::notify(Subject<std::string> &whoFrom){
                 int p;
                 string t;
                 if (iss >> p && iss >> t) {
-                    cout << command << " " << i << " " << p << " " << t << endl;
                     gameState->play(i, p, t);
                 } else {
-                    cout << command << " " << i << endl;
                     gameState->play(i);
                 }
             } else {
@@ -81,12 +81,12 @@ void GameController::notify(Subject<std::string> &whoFrom){
         } else if (command == "hand") {
             gameState->setCurrentStatus(CurrentStatus::SHOW_HAND);
             gameState->renderNow();
-            gameState->setCurrentStatus(CurrentStatus::SHOW_BOARD);
         } else if (command == "board") {
             gameState->setCurrentStatus(CurrentStatus::SHOW_BOARD);
             gameState->renderNow();
         } else {
             // throw invalidCommand
+            cout << "Invalid Command (this is not an exception yet)" << endl;
         }
     }
 }

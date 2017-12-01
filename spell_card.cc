@@ -1,7 +1,5 @@
 #include "spell_card.h"
-#include <iostream>
 
-using namespace std;
 using std::string;
 using std::shared_ptr;
 
@@ -12,7 +10,7 @@ card_template_t SpellCard::getGraphics() const{
 }
 
 void SpellCard::play(GameState *gameState){
-    cout<<"PLAYED SPELL"<<endl;
+    effect->activate(gameState);
 }
 
 void SpellCard::play(GameState *gameState, int p, std::string t){}

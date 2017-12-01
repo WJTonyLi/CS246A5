@@ -50,21 +50,31 @@ static void displayCards(vector<card_template_t> cards, ostream &os, bool drawSi
 void TextView::notify(Subject<void> &whoFrom){
     if(gameState->getCurrentStatus() == CurrentStatus::GET_NAME){
         os<<"Please enter Player "<<gameState->getTurn()<<" name: ";
-    }
-    else if(gameState->getCurrentStatus() == CurrentStatus::SHOW_BOARD){
+    } else if (gameState->getCurrentStatus() == CurrentStatus::HELP_MESSAGE) {
+        os << "Commands: help -- Display this message." << endl;
+        os << "          end  -- End the current player's turn." << endl;
+        os << "          quit -- End the game." << endl;
+        os << "          attack minion other-minion -- Orders minion to attack other-minion." << endl;
+        os << "          attack minion -- Orders minion to attack the opponent." << endl;
+        os << "          play card [target-player target-card] -- Play card, optionally targetting target-card owned by target-player." << endl;
+        os << "          use minion [target-player target-card] -- Use minion's special ability, optionally targeting target-card owned by target player." << endl;
+        os << "          inspect minion -- View a minion's card and all enchantments on that minion." << endl;
+        os << "          hand -- Describe all cards in your hand." << endl;
+        os << "          board -- Describe all cards in your board." << endl;
+    } else if(gameState->getCurrentStatus() == CurrentStatus::SHOW_BOARD){
         card_template_t card;
         vector<card_template_t> p1Display;
         vector<card_template_t> p1Minions;
         vector<card_template_t> p2Minions;
         vector<card_template_t> p2Display;
         for(int x = 0; x < 5; x++){
-            if(x < gameState->getPlayer1()->getField().size()){
+            if(x < int(gameState->getPlayer1()->getField().size())){
                 p1Minions.emplace_back(gameState->getPlayer1()->getField().at(x)->getGraphics());
             }
             else{
                 p1Minions.emplace_back(CARD_TEMPLATE_BORDER);
             }
-            if(x < gameState->getPlayer2()->getField().size()){
+            if(x < int(gameState->getPlayer2()->getField().size())){
                 p2Minions.emplace_back(gameState->getPlayer2()->getField().at(x)->getGraphics());
             }
             else{

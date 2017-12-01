@@ -7,6 +7,7 @@
 class BlizzardEffect: public ActivatedEffect{
     public:
         BlizzardEffect();
+        void activate(GameState *GameState);
         ~BlizzardEffect();
 };
 

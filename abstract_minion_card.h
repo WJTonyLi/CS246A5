@@ -9,14 +9,16 @@
 class AbstractMinionCard:public AbstractCard{
         int attack;
         int defense;
-        int originalAttack;
-        int originalDefense;
+        int actions;
     public:
         AbstractMinionCard(std::string name, int cost, Player *player, int attack, int defense);
         int getAttack() const;
         void setAttack(int value);
         int getDefense() const;
         void setDefense(int value);
+        int getActions() const;
+        void incrementActions();
+        void useAction();
         virtual void attackEnemy(GameState *gameState);
         virtual void attackEnemy(GameState *gameState, int j);
         virtual void play(GameState *gameState) = 0;

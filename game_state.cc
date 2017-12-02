@@ -5,17 +5,17 @@ using std::string;
 using std::shared_ptr;
 using std::make_shared;
 
-GameState::GameState():p1{make_shared<Player>()}, p2{make_shared<Player>()}, status{CurrentStatus::GET_NAME}, currentTurn{1}{}
+GameState::GameState(string deckFile1, string deckFile2):p1{make_shared<Player>(deckFile1)}, p2{make_shared<Player>(deckFile2)}, status{CurrentStatus::GET_NAME}, currentTurn{1}{}
 
-std::shared_ptr<Player> GameState::getPlayer1(){
+shared_ptr<Player> GameState::getPlayer1(){
     return p1;
 }
 
-std::shared_ptr<Player> GameState::getPlayer2(){
+shared_ptr<Player> GameState::getPlayer2(){
     return p2;
 }
 
-std::shared_ptr<Player> GameState::getCurrentPlayer(){
+shared_ptr<Player> GameState::getCurrentPlayer(){
     if(currentTurn == 1){
         return p1;
     }
@@ -27,7 +27,7 @@ std::shared_ptr<Player> GameState::getCurrentPlayer(){
     }
 }
 
-std::shared_ptr<Player> GameState::getCurrentOpponent() {
+shared_ptr<Player> GameState::getCurrentOpponent() {
     return (currentTurn == 1) ? p2 : p1;
 }
 

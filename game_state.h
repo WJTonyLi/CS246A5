@@ -13,7 +13,7 @@ class GameState: public Subject<void>{
         CurrentStatus status;
         int currentTurn;
     public:
-        GameState();
+        GameState(std::string deckFile1, std::string deckFile2);
         std::shared_ptr<Player> getPlayer1();
         std::shared_ptr<Player> getPlayer2();
         std::shared_ptr<Player> getCurrentPlayer();

@@ -3,15 +3,19 @@
 #include "spell_card.h"
 #include "base_minion_card.h"
 #include "Effects/blizzard_effect.h"
+#include <fstream>
 #include <iostream>
-
+#include <algorithm>
+#include <stdexcept>
 
 using namespace std;
 using std::string;
-using std::shared_ptr;
-using std::invalid_argument;
-using std::out_of_range;
+using std::ifstream;
 using std::exception;
+using std::shared_ptr;
+using std::make_shared;
+using std::out_of_range;
+using std::invalid_argument;
 
 Player::Player():life{20}, magic{3}, name{""}, deck{}, hand{}, field{}, graveyard{}{
     deck.emplace_back(shared_ptr<SpellCard>(make_shared<SpellCard>("Blizzard", 3, this, shared_ptr<ActivatedEffect>(make_shared<BlizzardEffect>()))));
@@ -22,7 +26,31 @@ Player::Player():life{20}, magic{3}, name{""}, deck{}, hand{}, field{}, graveyar
 }
 
 Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}, field{}, graveyard{}{
-    //TODO initialize deck base on deckFileName.deck
+    cout<<deckFileName<<endl;
+    ifstream deckFile;
+    deckFile.open(deckFileName);
+    string cardName;
+    if(deckFile.fail()){
+        throw invalid_argument("Could not open deckfile " + deckFileName + ".");
+    }
+    else{
+        while (std::getline(deckFile, cardName)){
+            if(cardName == "Blizzard"){
+                deck.emplace_back(shared_ptr<SpellCard>(make_shared<SpellCard>("Blizzard", 3, this, shared_ptr<ActivatedEffect>(make_shared<BlizzardEffect>()))));
+            }
+            else if(cardName == "Earth Elemental"){
+                deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Earth Elemental", 3, this, 4, 4)));
+            }
+            else if(cardName == "Air Elemental"){
+                deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Air Elemental", 0, this, 1, 1)));
+            }
+        }
+    }
+    srand (time(NULL));
+    random_shuffle(deck.begin(), deck.end());
+    for(int x = 0; x < 5; x++){
+        drawACard();
+    }
 }
 
 int Player::getLife() const{

@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     }
 
     //this is just code to test my stuff, ignore this for now
-    shared_ptr<GameState> gs(make_shared<GameState>());
+    shared_ptr<GameState> gs(make_shared<GameState>(deckFile1, deckFile2));
     shared_ptr<TextView> tv(make_shared<TextView>(cout, gs));
     shared_ptr<GameController> gc(make_shared<GameController>(gs, testMode, graphics));
     gs->attach(tv);

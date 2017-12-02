@@ -44,6 +44,7 @@ void GameController::notify(Subject<std::string> &whoFrom){
                 cout << command << " " << i << endl;
             } else {
                 // throw invalidCommand
+                cerr << "Invalid Command (this is not an exception yet)" << endl;
             }
         } else if (command == "attack") {
             int i;
@@ -72,12 +73,13 @@ void GameController::notify(Subject<std::string> &whoFrom){
                 }
             } else {
                 // throw invalidCommand
+                cerr << "Invalid Command (this is not an exception yet)" << endl;
             }
         } else if (command == "play") {
             int i;
             if (iss >> i) {
                 int p;
-                int t;
+                string t;
                 if (iss >> p && iss >> t) {
                     try {
                         gameState->play(i, p, t);
@@ -101,6 +103,7 @@ void GameController::notify(Subject<std::string> &whoFrom){
                 }
             } else {
                 // throw invalidCommand
+                cerr << "Invalid Command (this is not an exception yet)" << endl;
             }
         } else if (command == "use") {
             int i;
@@ -113,6 +116,7 @@ void GameController::notify(Subject<std::string> &whoFrom){
                 }
             } else {
                 // throw invalidCommand
+                cerr << "Invalid Command (this is not an exception yet)" << endl;
             }
         } else if (command == "hand") {
             gameState->setCurrentStatus(CurrentStatus::SHOW_HAND);

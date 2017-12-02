@@ -94,6 +94,9 @@ void Player::drawACard(){
 void Player::startTurn(){
     magic++;
     drawACard();
+    for (auto &n: field) {
+        n->incrementActions();
+    }
 }
 
 const std::vector<std::shared_ptr<AbstractCard>> Player::getDeck(){
@@ -134,19 +137,19 @@ void Player::addMinionToField(shared_ptr<AbstractMinionCard> minion){
     field.emplace_back(minion);
 }
 
-void Player::play(GameState *gameState, int i, int p, int t){}
+void Player::play(GameState *gameState, int i, int p, string t){}
 
 void Player::attackEnemy(GameState *gameState, int i){
     // TODO implement minion action limit and death
     if(int(field.size()) >= i && i >= 1){
         shared_ptr<AbstractMinionCard> minionToAttack = field.at(i-1);
+        if (minionToAttack->getActions() <= 0) {
+            throw invalid_argument("Not enough actions to attack.");
+        }
         minionToAttack->attackEnemy(gameState);
-    }
-    else if(int(field.size()) < i || i < 1){
+        minionToAttack->useAction();
+    } else {
         throw out_of_range("No card at that index.");
-    }
-    else{
-        throw invalid_argument("Not enough actions to attack.");
     }
 }
 

@@ -3,7 +3,7 @@
 
 using std::shared_ptr;
 
-AbstractMinionCard::AbstractMinionCard(std::string name, int cost, Player *player, int attack, int defense):AbstractCard(name, cost, player), attack{attack}, defense{defense}, originalAttack{attack}, originalDefense{defense}{}
+AbstractMinionCard::AbstractMinionCard(std::string name, int cost, Player *player, int attack, int defense):AbstractCard(name, cost, player), attack{attack}, defense{defense}, actions{0} {}
 
 int AbstractMinionCard::getAttack() const {
     return attack;
@@ -19,6 +19,18 @@ int AbstractMinionCard::getDefense() const {
 
 void AbstractMinionCard::setDefense(int value) {
     this->defense = value;
+}
+
+int AbstractMinionCard::getActions() const {
+    return actions;
+}
+
+void AbstractMinionCard::incrementActions() {
+    this->actions += 1;
+}
+
+void AbstractMinionCard::useAction() {
+    this->actions -= 1;
 }
 
 void AbstractMinionCard::attackEnemy(GameState *gameState) {

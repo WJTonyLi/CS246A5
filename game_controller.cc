@@ -52,7 +52,15 @@ void GameController::notify(Subject<std::string> &whoFrom){
                 if (iss >> j) {
                     cout << command << " " << i << " " << j <<  endl;
                 } else {
-                    cout << command << " " << i << endl;
+                    try {
+                        gameState->attackEnemy(i);
+                    }
+                    catch (std::out_of_range& e) {
+                        cerr << e.what() << endl;
+                    }
+                    catch (std::invalid_argument& e) {
+                        cerr << e.what() << endl;
+                    }
                 }
             } else {
                 // throw invalidCommand
@@ -106,7 +114,7 @@ void GameController::notify(Subject<std::string> &whoFrom){
             gameState->renderNow();
         } else {
             // throw invalidCommand
-            cout << "Invalid Command (this is not an exception yet)" << endl;
+            cerr << "Invalid Command (this is not an exception yet)" << endl;
         }
     }
 }

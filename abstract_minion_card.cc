@@ -21,10 +21,10 @@ void AbstractMinionCard::setDefense(int value) {
     this->defense = value;
 }
 
-void AbstractMinionCard::attackEnemy(Player *player) {
-    int currentLife = player->getLife();
+void AbstractMinionCard::attackEnemy(GameState *gameState) {
+    int currentLife = gameState->getCurrentOpponent()->getLife();
     int newLife = currentLife - attack;
-    player->setLife(newLife);
+    gameState->getCurrentOpponent()->setLife(newLife);
 }
 
 void AbstractMinionCard::attackEnemy(AbstractMinionCard& minion) {

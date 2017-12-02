@@ -99,4 +99,16 @@ void Player::addMinionToField(shared_ptr<AbstractMinionCard> minion){
 
 void Player::play(GameState *gameState, int i, int p, string t){}
 
+void Player::attackEnemy(GameState *gameState, int i){
+    // TODO implement minion actions
+    if(field.size() >= i && i >= 1){
+        shared_ptr<AbstractMinionCard> minionToAttack = field.at(i-1);
+        minionToAttack->attackEnemy(gameState);
+    } else if (field.size() < i || i < 1) {
+        throw out_of_range("No card at that index.");
+    } else {
+        throw invalid_argument("Not enough actions to attack.");
+    }
+}
+
 Player::~Player(){}

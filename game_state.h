@@ -17,6 +17,7 @@ class GameState: public Subject<void>{
         std::shared_ptr<Player> getPlayer1();
         std::shared_ptr<Player> getPlayer2();
         std::shared_ptr<Player> getCurrentPlayer();
+        std::shared_ptr<Player> getCurrentOpponent();
         void setCurrentStatus(CurrentStatus status);
         void getInfo() const override;
         int getTurn();
@@ -25,6 +26,7 @@ class GameState: public Subject<void>{
         void renderNow();
         void play(int i);
         void play(int i, int p, std::string t);
+        void attackEnemy(int i);
         CurrentStatus getCurrentStatus();
         ~GameState();
 };

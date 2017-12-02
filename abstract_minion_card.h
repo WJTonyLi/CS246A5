@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include "abstract_card.h"
+#include "game_state.h"
 
 class AbstractMinionCard:public AbstractCard{
         int attack;
@@ -16,7 +17,7 @@ class AbstractMinionCard:public AbstractCard{
         void setAttack(int value);
         int getDefense() const;
         void setDefense(int value);
-        virtual void attackEnemy(Player *player);
+        virtual void attackEnemy(GameState *gameState);
         virtual void attackEnemy(AbstractMinionCard& minion);
         virtual void play(GameState *gameState) = 0;
         virtual void play(GameState *gameState, int p, std::string t) = 0;

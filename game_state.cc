@@ -27,6 +27,10 @@ std::shared_ptr<Player> GameState::getCurrentPlayer(){
     }
 }
 
+std::shared_ptr<Player> GameState::getCurrentOpponent() {
+    return (currentTurn == 1) ? p2 : p1;
+}
+
 void GameState::setCurrentStatus(CurrentStatus status){
     this->status = status;
 }
@@ -75,6 +79,10 @@ void GameState::play(int i){
 
 void GameState::play(int i, int p, string t){
     getCurrentPlayer()->play(this, i, p ,t);
+}
+
+void GameState::attackEnemy(int i){
+    getCurrentPlayer()->attackEnemy(this, i);
 }
 
 GameState::~GameState(){}

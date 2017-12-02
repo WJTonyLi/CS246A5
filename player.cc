@@ -50,9 +50,9 @@ void Player::setName(string name){
 }
 
 std::shared_ptr<AbstractMinionCard> Player::getFieldMinion(int i) const {
-    if (field.size() < i || i < 1) {
+    if (int(field.size()) < i || i < 1) {
         throw out_of_range("No card at that index.");
-    }   
+    }
     return field.at(i-1);
 }
 
@@ -81,7 +81,7 @@ const std::vector<std::shared_ptr<AbstractMinionCard>> Player::getField(){
 }
 
 void Player::play(GameState *gameState, int i){
-    if((hand.size() >= i && i >= 1) && (magic >= hand.at(i-1)->getCost())){
+    if((int(hand.size()) >= i && i >= 1) && (magic >= hand.at(i-1)->getCost())){
         shared_ptr<AbstractCard> cardToPlay = hand.at(i-1);
         hand.erase(hand.begin() + i-1);
         magic -= cardToPlay->getCost();
@@ -93,9 +93,11 @@ void Player::play(GameState *gameState, int i){
             magic += cardToPlay->getCost();
             throw e;
         }
-    } else if (hand.size() < i || i < 1) {
+    }
+    else if(int(hand.size()) < i || i < 1){
         throw out_of_range("No card at that index.");
-    } else {
+    }
+    else{
         throw invalid_argument("Not enough magic to play that card.");
     }
 }
@@ -108,25 +110,47 @@ void Player::play(GameState *gameState, int i, int p, string t){}
 
 void Player::attackEnemy(GameState *gameState, int i){
     // TODO implement minion action limit and death
-    if(field.size() >= i && i >= 1){
+    if(int(field.size()) >= i && i >= 1){
         shared_ptr<AbstractMinionCard> minionToAttack = field.at(i-1);
         minionToAttack->attackEnemy(gameState);
-    } else if (field.size() < i || i < 1) {
+    }
+    else if(int(field.size()) < i || i < 1){
         throw out_of_range("No card at that index.");
-    } else {
+    }
+    else{
         throw invalid_argument("Not enough actions to attack.");
     }
 }
 
 void Player::attackEnemy(GameState *gameState, int i, int j) {
     // TODO implement minion action limit and death
-    if (field.size() >= i && i >= 1) {
-        shared_ptr<AbstractMinionCard> minionToAttack = field.at(i-1);
+    if (int(field.size()) >= i && i >= 1){
+        shared_ptr<AbstractMinionCard> minionToAttack = field.at(i - 1);
         minionToAttack->attackEnemy(gameState, j);
-    } else if (field.size() < i || i < 1) {
+        shared_ptr<Player> opponent = gameState->getCurrentOpponent();
+        if(field.at(i - 1)->isDead()){
+            this->moveToGraveyard(i - 1);
+        }
+        if(opponent->field.at(j - 1)->isDead()){
+            opponent->moveToGraveyard(j - 1);
+        }
+    }
+    else if(int(field.size()) < i || i < 1){
         throw out_of_range("No card at that index.");
-    } else {
+    }
+    else{
         throw invalid_argument("Not enough actions to attack.");
+    }
+}
+
+void Player::moveToGraveyard(int i){
+    //TODO remove enchatments before moving to graveyard
+    if(i >= 0 && i < int(field.size())){
+        graveyard.push_back(field.at(i));
+        field.erase(field.begin() + i);
+    }
+    else{
+        throw out_of_range("No card at that index.");
     }
 }
 

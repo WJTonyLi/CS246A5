@@ -37,6 +37,7 @@ class Player{
         void attackEnemy(GameState *gameState, int i);
         void attackEnemy(GameState *gameState, int i, int j);
         void addMinionToField(std::shared_ptr<AbstractMinionCard> minion);
+        void moveToGraveyard(int i);
         ~Player();
 };
 

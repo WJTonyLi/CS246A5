@@ -50,7 +50,15 @@ void GameController::notify(Subject<std::string> &whoFrom){
             if (iss >> i) {
                 int j;
                 if (iss >> j) {
-                    cout << command << " " << i << " " << j <<  endl;
+                    try {
+                        gameState->attackEnemy(i, j);
+                    }
+                    catch (std::out_of_range& e) {
+                        cerr << e.what() << endl;
+                    }
+                    catch (std::invalid_argument& e) {
+                        cerr << e.what() << endl;
+                    }
                 } else {
                     try {
                         gameState->attackEnemy(i);

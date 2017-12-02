@@ -27,11 +27,12 @@ void AbstractMinionCard::attackEnemy(GameState *gameState) {
     gameState->getCurrentOpponent()->setLife(newLife);
 }
 
-void AbstractMinionCard::attackEnemy(AbstractMinionCard& minion) {
-    int enemyAttack = minion.getAttack();
-    int enemyDefense = minion.getDefense();
+void AbstractMinionCard::attackEnemy(GameState *gameState, int j) {
+    std::shared_ptr<AbstractMinionCard> enemy = gameState->getCurrentOpponent()->getFieldMinion(j);
+    int enemyAttack = enemy->getAttack();
+    int enemyDefense = enemy->getDefense();
     int newDefense = enemyDefense - attack;
-    minion.setDefense(newDefense);
+    enemy->setDefense(newDefense);
     defense -= enemyAttack;
 }
 

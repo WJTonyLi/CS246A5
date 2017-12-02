@@ -26,6 +26,7 @@ class Player{
         int getMagic() const;
         void setMagic(int magic);
         std::string getName() const;
+        std::shared_ptr<AbstractMinionCard> getFieldMinion(int i) const;
         void drawACard();
         void startTurn();
         const std::vector<std::shared_ptr<AbstractCard>> getDeck();
@@ -34,6 +35,7 @@ class Player{
         void play(GameState *gameState, int i);
         void play(GameState *gameState, int i, int p, std::string t);
         void attackEnemy(GameState *gameState, int i);
+        void attackEnemy(GameState *gameState, int i, int j);
         void addMinionToField(std::shared_ptr<AbstractMinionCard> minion);
         ~Player();
 };

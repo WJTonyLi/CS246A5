@@ -85,4 +85,8 @@ void GameState::attackEnemy(int i){
     getCurrentPlayer()->attackEnemy(this, i);
 }
 
+void GameState::attackEnemy(int i, int j){
+    getCurrentPlayer()->attackEnemy(this, i, j);
+}
+
 GameState::~GameState(){}

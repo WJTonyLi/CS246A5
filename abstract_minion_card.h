@@ -18,7 +18,7 @@ class AbstractMinionCard:public AbstractCard{
         int getDefense() const;
         void setDefense(int value);
         virtual void attackEnemy(GameState *gameState);
-        virtual void attackEnemy(AbstractMinionCard& minion);
+        virtual void attackEnemy(GameState *gameState, int j);
         virtual void play(GameState *gameState) = 0;
         virtual void play(GameState *gameState, int p, std::string t) = 0;
         virtual card_template_t getGraphics() const override = 0;

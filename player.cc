@@ -49,6 +49,13 @@ void Player::setName(string name){
     this->name = name;
 }
 
+std::shared_ptr<AbstractMinionCard> Player::getFieldMinion(int i) const {
+    if (field.size() < i || i < 1) {
+        throw out_of_range("No card at that index.");
+    }   
+    return field.at(i-1);
+}
+
 void Player::drawACard(){
     if(deck.size() > 0 && hand.size() < 5){
         hand.emplace_back(deck.back());
@@ -100,10 +107,22 @@ void Player::addMinionToField(shared_ptr<AbstractMinionCard> minion){
 void Player::play(GameState *gameState, int i, int p, string t){}
 
 void Player::attackEnemy(GameState *gameState, int i){
-    // TODO implement minion actions
+    // TODO implement minion action limit and death
     if(field.size() >= i && i >= 1){
         shared_ptr<AbstractMinionCard> minionToAttack = field.at(i-1);
         minionToAttack->attackEnemy(gameState);
+    } else if (field.size() < i || i < 1) {
+        throw out_of_range("No card at that index.");
+    } else {
+        throw invalid_argument("Not enough actions to attack.");
+    }
+}
+
+void Player::attackEnemy(GameState *gameState, int i, int j) {
+    // TODO implement minion action limit and death
+    if (field.size() >= i && i >= 1) {
+        shared_ptr<AbstractMinionCard> minionToAttack = field.at(i-1);
+        minionToAttack->attackEnemy(gameState, j);
     } else if (field.size() < i || i < 1) {
         throw out_of_range("No card at that index.");
     } else {

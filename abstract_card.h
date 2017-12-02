@@ -19,7 +19,7 @@ class AbstractCard{
         Player *getOwner();
         virtual card_template_t getGraphics() const = 0;
         virtual void play(GameState *gameState) = 0;
-        virtual void play(GameState *gameState, int p, int t) = 0;
+        virtual void play(GameState *gameState, int p, std::string t) = 0;
         virtual ~AbstractCard();
 };
 

@@ -33,7 +33,7 @@ class Player{
         const std::vector<std::shared_ptr<AbstractCard>> getHand();
         const std::vector<std::shared_ptr<AbstractMinionCard>> getField();
         void play(GameState *gameState, int i);
-        void play(GameState *gameState, int i, int p, std::string t);
+        void play(GameState *gameState, int i, int p, int t);
         void attackEnemy(GameState *gameState, int i);
         void attackEnemy(GameState *gameState, int i, int j);
         void addMinionToField(std::shared_ptr<AbstractMinionCard> minion);

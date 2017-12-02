@@ -104,7 +104,7 @@ void Player::addMinionToField(shared_ptr<AbstractMinionCard> minion){
     field.emplace_back(minion);
 }
 
-void Player::play(GameState *gameState, int i, int p, string t){}
+void Player::play(GameState *gameState, int i, int p, int t){}
 
 void Player::attackEnemy(GameState *gameState, int i){
     // TODO implement minion action limit and death

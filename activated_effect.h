@@ -9,6 +9,7 @@ class ActivatedEffect{
     public:
         ActivatedEffect(std::string description);
         virtual void activate(GameState *GameState) = 0;
+        virtual std::string getDescription() = 0;
         virtual ~ActivatedEffect();
 };
 

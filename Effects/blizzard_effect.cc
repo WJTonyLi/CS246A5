@@ -1,6 +1,7 @@
 #include "blizzard_effect.h"
 #include "../abstract_minion_card.h"
 
+using std::string;
 using std::shared_ptr;
 
 BlizzardEffect::BlizzardEffect():ActivatedEffect{"Does nothing."}{}
@@ -22,6 +23,10 @@ void BlizzardEffect::activate(GameState *gameState){
             p2->moveToGraveyard(x);
         }
     }
+}
+
+string BlizzardEffect::getDescription(){
+    return "Deal 2 damage to all minions";
 }
 
 BlizzardEffect::~BlizzardEffect(){}

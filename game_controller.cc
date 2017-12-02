@@ -77,7 +77,7 @@ void GameController::notify(Subject<std::string> &whoFrom){
             int i;
             if (iss >> i) {
                 int p;
-                int t;
+                string t;
                 if (iss >> p && iss >> t) {
                     try {
                         gameState->play(i, p, t);

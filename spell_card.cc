@@ -13,6 +13,6 @@ void SpellCard::play(GameState *gameState){
     effect->activate(gameState);
 }
 
-void SpellCard::play(GameState *gameState, int p, std::string t){}
+void SpellCard::play(GameState *gameState, int p, string t){}
 
 SpellCard::~SpellCard(){}

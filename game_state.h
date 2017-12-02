@@ -25,7 +25,7 @@ class GameState: public Subject<void>{
         void setCurrentPlayerName(std::string newName);
         void renderNow();
         void play(int i);
-        void play(int i, int p, std::string t);
+        void play(int i, int p, int t);
         void attackEnemy(int i);
         void attackEnemy(int i, int j);
         CurrentStatus getCurrentStatus();

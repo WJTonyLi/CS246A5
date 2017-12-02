@@ -77,7 +77,7 @@ void GameState::play(int i){
     getCurrentPlayer()->play(this, i);
 }
 
-void GameState::play(int i, int p, string t){
+void GameState::play(int i, int p, int t){
     getCurrentPlayer()->play(this, i, p ,t);
 }
 

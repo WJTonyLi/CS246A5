@@ -10,7 +10,7 @@ class ApprenticeSummonerEffect: public ActivatedEffect{
         ApprenticeSummonerEffect(Player *player);
         void activate(GameState *gameState);
         void activate(GameState *gameState, int p, std::string t);
-        std::string getDescription();
+        int getCost();
         ~ApprenticeSummonerEffect();
 };
 

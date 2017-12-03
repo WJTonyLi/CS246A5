@@ -9,6 +9,7 @@ class BlizzardEffect: public ActivatedEffect{
         BlizzardEffect();
         void activate(GameState *gameState);
         void activate(GameState *gameState, int p, std::string t);
+        int getCost();
         ~BlizzardEffect();
 };
 

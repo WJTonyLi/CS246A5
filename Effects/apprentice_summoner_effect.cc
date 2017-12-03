@@ -7,23 +7,27 @@ using std::shared_ptr;
 using std::make_shared;
 using std::invalid_argument;
 
-ApprenticeSummonerEffect::ApprenticeSummonerEffect(Player *player):ActivatedEffect{"Summons a 1/1 air elemental"}, player{player}{}
+ApprenticeSummonerEffect::ApprenticeSummonerEffect(Player *player):ActivatedEffect{"Summon a 1/1 air elemental"}, player{player}{}
 
 void ApprenticeSummonerEffect::activate(GameState *gameState){
     if(player->getHand().size() == 5){
         throw invalid_argument("Cannot summon any more minions");
     }
+    else if(player->getMagic() < 1){
+        throw invalid_argument("Not enough magic to use this ability.");
+    }
     else{
+        player->setMagic(player->getMagic() - 1);
         player->addMinionToField((shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Air Elemental", 0, player, 1, 1))));
     }
 }
 
 void ApprenticeSummonerEffect::activate(GameState *gameState, int p, std::string t){
-    throw invalid_argument("This is not a targeted effect.");
+    throw invalid_argument("This is not a targeted ability.");
 }
 
-string ApprenticeSummonerEffect::getDescription(){
-    return "Deal 2 damage to all minions";
+int ApprenticeSummonerEffect::getCost(){
+    return 1;
 }
 
 ApprenticeSummonerEffect::~ApprenticeSummonerEffect(){}

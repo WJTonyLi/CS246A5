@@ -37,4 +37,8 @@ void BlizzardEffect::activate(GameState *gameState, int p, std::string t){
     throw invalid_argument("Blizzard is not a targeted spell.");
 }
 
+int BlizzardEffect::getCost(){
+    return 3;
+}
+
 BlizzardEffect::~BlizzardEffect(){}

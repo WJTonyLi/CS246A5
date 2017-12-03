@@ -25,7 +25,12 @@ void BaseMinionCard::use(GameState *gameState, int p, string t){
 }
 
 card_template_t BaseMinionCard::getGraphics() const{
-    return display_minion_no_ability(getName(), getCost(), getAttack(), getDefense());
+    if(hasActivated){
+        return display_minion_activated_ability(getName(), getCost(), getAttack(), getDefense(), activeAbility->getCost(), activeAbility->getDescription());
+    }
+    else{
+        return display_minion_no_ability(getName(), getCost(), getAttack(), getDefense());
+    }
 }
 
 BaseMinionCard::~BaseMinionCard(){}

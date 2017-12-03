@@ -29,12 +29,6 @@ void BaseMinionCard::use(GameState *gameState, int p, string t){
     activeAbility->activate(gameState, p, t);
 }
 
-void BaseMinionCard::setTriggeredAbility(std::shared_ptr<TriggeredEffect> triggeredAbility){
-    this->triggeredAbility = triggeredAbility;
-    hasActivated = false;
-    hasTriggered = true;
-}
-
 card_template_t BaseMinionCard::getGraphics() const{
     if(hasActivated){
         return display_minion_activated_ability(getName(), getCost(), getAttack(), getDefense(), activeAbility->getCost(), activeAbility->getDescription());

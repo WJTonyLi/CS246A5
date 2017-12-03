@@ -67,9 +67,7 @@ Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}
                 deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Novice Pyromancer", 1, this, 0, 1, make_shared<NovicePyromancerEffect>(this))));
             }
             else if(cardName == "Bone Golem"){
-                shared_ptr<BaseMinionCard> boneGolem = make_shared<BaseMinionCard>("Bone Golem", 2, this, 1, 3);
-                boneGolem->setTriggeredAbility(make_shared<BoneGolemEffect>());
-                deck.emplace_back(boneGolem);
+                deck.emplace_back(make_shared<BaseMinionCard>("Bone Golem", 2, this, 1, 3, make_shared<BoneGolemEffect>()));
             }
         }
     }

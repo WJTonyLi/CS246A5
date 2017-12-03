@@ -7,8 +7,8 @@
 class BlizzardEffect: public ActivatedEffect{
     public:
         BlizzardEffect();
-        void activate(GameState *GameState);
-        std::string getDescription();
+        void activate(GameState *gameState);
+        void activate(GameState *gameState, int p, std::string t);
         ~BlizzardEffect();
 };
 

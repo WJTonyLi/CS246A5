@@ -21,110 +21,131 @@ void GameController::notify(Subject<std::string> &whoFrom){
         if(gameState->getTurn() == 2){
             gameState->endTurn();
             gameState->setCurrentStatus(CurrentStatus::SHOW_BOARD);
-        } else {
+        }
+        else{
             gameState->endTurn();
             gameState->renderNow();
         }
-    } else {
+    }
+    else{
         string command;
         iss >> command;
-        if (command == "help") {
+        if(command == "help"){
             gameState->setCurrentStatus(CurrentStatus::HELP_MESSAGE);
             gameState->renderNow();
-        } else if (command == "end") {
+        }
+        else if(command == "end"){
             gameState->endTurn();
-        } else if (command == "quit") {
+        }
+        else if(command == "quit"){
             cout << command << endl;
-        } else if (command == "draw" && testMode) {
+        }
+        else if(command == "draw" && testMode){
             gameState->getCurrentPlayer()->drawACard();
             cout << command << endl;
-        } else if (command == "discard" && testMode) {
+        }
+        else if (command == "discard" && testMode){
             int i;
-            if (iss >> i) {
+            if (iss >> i){
                 cout << command << " " << i << endl;
-            } else {
+            }
+            else{
                 // throw invalidCommand
                 cerr << "Invalid Command (this is not an exception yet)" << endl;
             }
-        } else if (command == "attack") {
+        }
+        else if (command == "attack"){
             int i;
-            if (iss >> i) {
+            if(iss >> i){
                 int j;
-                if (iss >> j) {
-                    try {
+                if(iss >> j){
+                    try{
                         gameState->attackEnemy(i, j);
                     }
-                    catch (std::out_of_range& e) {
+                    catch (std::out_of_range& e){
                         cerr << e.what() << endl;
                     }
-                    catch (std::invalid_argument& e) {
+                    catch (std::invalid_argument& e){
                         cerr << e.what() << endl;
                     }
-                } else {
-                    try {
+                }
+                else{
+                    try{
                         gameState->attackEnemy(i);
                     }
-                    catch (std::out_of_range& e) {
+                    catch (std::out_of_range& e){
                         cerr << e.what() << endl;
                     }
-                    catch (std::invalid_argument& e) {
+                    catch (std::invalid_argument& e){
                         cerr << e.what() << endl;
                     }
                 }
-            } else {
+            }
+            else{
                 // throw invalidCommand
                 cerr << "Invalid Command (this is not an exception yet)" << endl;
             }
-        } else if (command == "play") {
+        }
+        else if(command == "play"){
             int i;
-            if (iss >> i) {
+            if(iss >> i){
                 int p;
                 string t;
-                if (iss >> p && iss >> t) {
-                    try {
+                if (iss >> p && iss >> t){
+                    try{
                         gameState->play(i, p, t);
                     }
-                    catch (std::out_of_range& e) {
+                    catch (std::out_of_range& e){
                         cerr << e.what() << endl;
                     }
-                    catch (std::invalid_argument& e) {
+                    catch (std::invalid_argument& e){
                         cerr << e.what() << endl;
                     }
-                } else {
-                    try {
+                }else{
+                    try{
                         gameState->play(i);
                     }
-                    catch (std::out_of_range& e) {
+                    catch (std::out_of_range& e){
                         cerr << e.what() << endl;
                     }
-                    catch (std::invalid_argument& e) {
+                    catch (std::invalid_argument& e){
                         cerr << e.what() << endl;
                     }
                 }
-            } else {
+            }
+            else{
                 // throw invalidCommand
                 cerr << "Invalid Command (this is not an exception yet)" << endl;
             }
-        } else if (command == "use") {
+        }
+        else if(command == "use"){
             int i;
-            if (iss >> i) {
-                int j;
-                if (iss >> j) {
-                    cout << command << " " << i << " " << j <<  endl;
-                } else {
+            if (iss >> i){
+                int p;
+                string t;
+                if(iss >> p && iss>>t){
+                    gameState->use(i, p, t);
+                    cout << command << " " << p << " " << t <<  endl;
+                }
+                else{
+                    gameState->use(i);
                     cout << command << " " << i << endl;
                 }
-            } else {
+            }
+            else{
                 // throw invalidCommand
                 cerr << "Invalid Command (this is not an exception yet)" << endl;
             }
-        } else if (command == "hand") {
+        }
+        else if(command == "hand"){
             gameState->setCurrentStatus(CurrentStatus::SHOW_HAND);
             gameState->renderNow();
-        } else if (command == "board") {
+        }
+        else if(command == "board"){
             gameState->setCurrentStatus(CurrentStatus::SHOW_BOARD);
             gameState->renderNow();
-        } else {
+        }
+        else{
             // throw invalidCommand
             cerr << "Invalid Command (this is not an exception yet)" << endl;
         }

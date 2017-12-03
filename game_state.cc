@@ -27,7 +27,7 @@ shared_ptr<Player> GameState::getCurrentPlayer(){
     }
 }
 
-shared_ptr<Player> GameState::getCurrentOpponent() {
+shared_ptr<Player> GameState::getCurrentOpponent(){
     return (currentTurn == 1) ? p2 : p1;
 }
 
@@ -79,6 +79,14 @@ void GameState::play(int i){
 
 void GameState::play(int i, int p, string t){
     getCurrentPlayer()->play(this, i, p ,t);
+}
+
+void GameState::use(int i){
+    getCurrentPlayer()->use(this, i);
+}
+
+void GameState::use(int i, int p, string t){
+    getCurrentPlayer()->use(this, i, p ,t);
 }
 
 void GameState::attackEnemy(int i){

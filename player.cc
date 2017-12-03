@@ -3,6 +3,7 @@
 #include "spell_card.h"
 #include "base_minion_card.h"
 #include "Effects/blizzard_effect.h"
+#include "Effects/apprentice_summoner_effect.h"
 #include <fstream>
 #include <iostream>
 #include <algorithm>
@@ -44,6 +45,9 @@ Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}
             else if(cardName == "Air Elemental"){
                 deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Air Elemental", 0, this, 1, 1)));
             }
+            else if(cardName == "Apprentice Summoner"){
+                deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Apprentice Summoner", 1, this, 1, 1, make_shared<ApprenticeSummonerEffect>(this))));
+            }
         }
     }
     srand (time(NULL));
@@ -81,7 +85,7 @@ std::shared_ptr<AbstractMinionCard> Player::getFieldMinion(int i) const {
     if (int(field.size()) < i || i < 1) {
         throw out_of_range("No card at that index.");
     }
-    return field.at(i-1);
+    return field.at(i - 1);
 }
 
 void Player::drawACard(){
@@ -133,11 +137,27 @@ void Player::play(GameState *gameState, int i){
     }
 }
 
+void Player::play(GameState *gameState, int i, int p, string t){}
+
+void Player::use(GameState *gameState, int i){
+    if(int(field.size()) >= i && i >= 1){
+        try{
+            field.at(i - 1)->use(gameState);
+        }
+        catch(exception e){
+            throw e;
+        }
+    }
+    else{
+        throw out_of_range("No card at that index.");
+    }
+}
+
+void Player::use(GameState *gameState, int i, int p, string t){}
+
 void Player::addMinionToField(shared_ptr<AbstractMinionCard> minion){
     field.emplace_back(minion);
 }
-
-void Player::play(GameState *gameState, int i, int p, string t){}
 
 void Player::attackEnemy(GameState *gameState, int i){
     // TODO implement minion action limit and death

@@ -2,11 +2,12 @@
 #include "player.h"
 #include "spell_card.h"
 #include "base_minion_card.h"
+#include "Effects/apprentice_summoner_effect.h"
 #include "Effects/blizzard_effect.h"
 #include "Effects/bone_golem_effect.h"
 #include "Effects/master_summoner_effect.h"
 #include "Effects/novice_pyromancer_effect.h"
-#include "Effects/apprentice_summoner_effect.h"
+#include "Effects/potion_seller_effect.h"
 #include <fstream>
 #include <algorithm>
 #include <stdexcept>
@@ -70,6 +71,11 @@ Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}
                 shared_ptr<BaseMinionCard> boneGolem = make_shared<BaseMinionCard>("Bone Golem", 2, this, 1, 3);
                 boneGolem->setTriggeredAbility(make_shared<BoneGolemEffect>());
                 deck.emplace_back(boneGolem);
+            }
+             else if(cardName == "Potion Seller"){
+                shared_ptr<BaseMinionCard> potionseller = make_shared<BaseMinionCard>("Potion Seller", 2, this, 1, 3);
+                potionseller->setTriggeredAbility(make_shared<PotionSellerEffect>());
+                deck.emplace_back(potionseller);
             }
         }
     }

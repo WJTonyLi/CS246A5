@@ -3,7 +3,7 @@
 using std::shared_ptr;
 using std::string;
 
-TriggeredEffect::TriggeredEffect(string description):owner{nullptr}, description{description}{}
+TriggeredEffect::TriggeredEffect(string description):description{description}, owner{nullptr} {}
 
 TriggeredEffect *TriggeredEffect::getThis(){
     return this;

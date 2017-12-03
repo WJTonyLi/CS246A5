@@ -4,7 +4,6 @@
 #include "game_controller.h"
 #include "subject.h"
 
-// debug
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -87,6 +86,10 @@ void GameController::notify(Subject<std::string> &whoFrom){
                 else{
                     try{
                         gameState->attackEnemy(i);
+                        if (gameState->getCurrentOpponent()->getLife() <= 0) {
+                            gameState->setCurrentStatus(CurrentStatus::GAME_WON);
+                            gameState->renderNow();
+                        }
                     }
                     catch(std::out_of_range& e){
                         cerr << e.what() << endl;

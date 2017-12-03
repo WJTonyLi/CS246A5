@@ -49,7 +49,7 @@ static void displayCards(vector<card_template_t> cards, ostream &os, bool drawSi
 
 void TextView::notify(Subject<void> &whoFrom){
     if(gameState->getCurrentStatus() == CurrentStatus::GET_NAME){
-        os<<"Please enter Player "<<gameState->getTurn()<<" name: ";
+        os<<"Please enter Player "<<gameState->getTurn()<<" name: " << endl;
     } else if (gameState->getCurrentStatus() == CurrentStatus::HELP_MESSAGE) {
         os << "Commands: help -- Display this message." << endl;
         os << "          end  -- End the current player's turn." << endl;
@@ -108,6 +108,9 @@ void TextView::notify(Subject<void> &whoFrom){
             handGraphics.emplace_back(it->getGraphics());
         }
         displayCards(handGraphics, os, true);
+    }
+    else if(gameState->getCurrentStatus() == CurrentStatus::GAME_WON){
+        os<<"Game over! Player "<<gameState->getTurn()<<" is the winner."<<endl;
     }
 }
 

@@ -47,7 +47,7 @@ void GameController::notify(Subject<std::string> &whoFrom){
             gameState->endTurn();
         }
         else if(command == "quit"){
-            cout << command << endl;
+            gameState->setCurrentStatus(CurrentStatus::GAME_END);
         }
         else if(command == "draw" && testMode){
             gameState->getCurrentPlayer()->drawACard();
@@ -89,6 +89,7 @@ void GameController::notify(Subject<std::string> &whoFrom){
                         if (gameState->getCurrentOpponent()->getLife() <= 0) {
                             gameState->setCurrentStatus(CurrentStatus::GAME_WON);
                             gameState->renderNow();
+                            gameState->setCurrentStatus(CurrentStatus::GAME_END);
                         }
                     }
                     catch(std::out_of_range& e){

@@ -55,12 +55,11 @@ int main(int argc, char *argv[])
     gc->startGame();
 
     // Handle -init option
-    // End game if won in initFile
     if (initFile != "") {
         if (ifstream file{initFile}) {
             CliView initInput{file};
             initInput.attach(gc);
-            while (gs->getCurrentStatus() != CurrentStatus::GAME_WON && !initInput.isDone()) {
+            while (gs->getCurrentStatus() != CurrentStatus::GAME_END && !initInput.isDone()) {
                 initInput.readCommands();
             }
         } else {
@@ -71,7 +70,7 @@ int main(int argc, char *argv[])
     // Get user input
     CliView userInput{cin};
     userInput.attach(gc);
-    while (gs->getCurrentStatus() != CurrentStatus::GAME_WON && !userInput.isDone()) {
+    while (gs->getCurrentStatus() != CurrentStatus::GAME_END && !userInput.isDone()) {
         userInput.readCommands();
     }
 

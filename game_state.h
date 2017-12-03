@@ -5,7 +5,7 @@
 #include "player.h"
 #include "subject.h"
 
-enum class CurrentStatus{SHOW_BOARD, SHOW_HAND, GET_NAME, HELP_MESSAGE, GAME_WON};
+enum class CurrentStatus{SHOW_BOARD, SHOW_HAND, GET_NAME, HELP_MESSAGE, GAME_WON, GAME_END};
 
 class GameState: public Subject<void>{
         std::shared_ptr<Player> p1;

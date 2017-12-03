@@ -83,10 +83,12 @@ void Player::setName(string name){
 }
 
 std::shared_ptr<AbstractMinionCard> Player::getFieldMinion(int i) const {
-    if (int(field.size()) < i || i < 1) {
+    try {
+        return field.at(i-1);
+    }
+    catch (out_of_range) {
         throw out_of_range("No card at that index.");
     }
-    return field.at(i - 1);
 }
 
 void Player::drawACard(){
@@ -97,9 +99,10 @@ void Player::drawACard(){
 }
 
 void Player::discardCard(int i) {
-    if (int (hand.size()) >= i && i >= 1) {
+    try {
         hand.erase(hand.begin() + i - 1);
-    } else {
+    }
+    catch (out_of_range) {
         throw out_of_range("No card at that index.");
     }
 }
@@ -153,29 +156,28 @@ void Player::play(GameState *gameState, int i){
 void Player::play(GameState *gameState, int i, int p, string t){}
 
 void Player::use(GameState *gameState, int i){
-    if(int(field.size()) >= i && i >= 1){
-        try{
-            field.at(i - 1)->use(gameState);
+    try{
+        shared_ptr<AbstractMinionCard> minionToCast = field.at(i-1);
+        if (minionToCast->getActions() <= 0) {
+            throw invalid_argument("Not enough actions to attack.");
         }
-        catch(invalid_argument& e){
-            throw e;
-        }
-    }
-    else{
+        minionToCast->use(gameState);
+        minionToCast->useAction();
+    } catch(out_of_range) {
         throw out_of_range("No card at that index.");
     }
 }
 
 void Player::use(GameState *gameState, int i, int p, string t){
-    if(int(field.size()) >= i && i >= 1){
-        try{
-            field.at(i - 1)->use(gameState, p, t);
+    try {
+        shared_ptr<AbstractMinionCard> minionToCast = field.at(i-1);
+        if (minionToCast->getActions() <= 0) {
+            throw invalid_argument("Not enough actions to attack.");
         }
-        catch(invalid_argument& e){
-            throw e;
-        }
+        minionToCast->use(gameState, p, t);
+        minionToCast->useAction();
     }
-    else{
+    catch (out_of_range) {
         throw out_of_range("No card at that index.");
     }
 }
@@ -185,8 +187,7 @@ void Player::addMinionToField(shared_ptr<AbstractMinionCard> minion){
 }
 
 void Player::attackEnemy(GameState *gameState, int i){
-    // TODO implement minion action limit and death
-    if(int(field.size()) >= i && i >= 1){
+    try {
         shared_ptr<AbstractMinionCard> minionToAttack = field.at(i-1);
         if (minionToAttack->getActions() <= 0) {
             throw invalid_argument("Not enough actions to attack.");
@@ -194,16 +195,19 @@ void Player::attackEnemy(GameState *gameState, int i){
         minionToAttack->attackEnemy(gameState);
         minionToAttack->useAction();
     }
-    else{
+    catch (out_of_range) {
         throw out_of_range("No card at that index.");
     }
 }
 
 void Player::attackEnemy(GameState *gameState, int i, int j) {
-    // TODO implement minion action limit and death
-    if (int(field.size()) >= i && i >= 1){
+    try {
         shared_ptr<AbstractMinionCard> minionToAttack = field.at(i - 1);
+        if (minionToAttack->getActions() <= 0) {
+            throw invalid_argument("Not enough actions to attack.");
+        }
         minionToAttack->attackEnemy(gameState, j);
+        minionToAttack->useAction();
         shared_ptr<Player> opponent = gameState->getCurrentOpponent();
         if(field.at(i - 1)->isDead()){
             this->moveToGraveyard(i - 1);
@@ -212,21 +216,18 @@ void Player::attackEnemy(GameState *gameState, int i, int j) {
             opponent->moveToGraveyard(j - 1);
         }
     }
-    else if(int(field.size()) < i || i < 1){
+    catch (out_of_range) {
         throw out_of_range("No card at that index.");
-    }
-    else{
-        throw invalid_argument("Not enough actions to attack.");
     }
 }
 
 void Player::moveToGraveyard(int i){
     //TODO remove enchatments before moving to graveyard
-    if(i >= 0 && i < int(field.size())){
+    try {
         graveyard.push_back(field.at(i));
         field.erase(field.begin() + i);
     }
-    else{
+    catch (out_of_range) {
         throw out_of_range("No card at that index.");
     }
 }

@@ -39,6 +39,9 @@ card_template_t BaseMinionCard::getGraphics() const{
     if(hasActivated){
         return display_minion_activated_ability(getName(), getCost(), getAttack(), getDefense(), activeAbility->getCost(), activeAbility->getDescription());
     }
+    else if(hasTriggered){
+        return display_minion_triggered_ability(getName(), getCost(), getAttack(), getDefense(), triggeredAbility->getDescription());
+    }
     else{
         return display_minion_no_ability(getName(), getCost(), getAttack(), getDefense());
     }

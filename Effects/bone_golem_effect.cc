@@ -2,7 +2,7 @@
 
 using std::shared_ptr;
 
-BoneGolemEffect::BoneGolemEffect(){}
+BoneGolemEffect::BoneGolemEffect():TriggeredEffect{"Gains +1/+1 whenever a minion leaves play."}{}
 
 void BoneGolemEffect::activate(GameState *gameState){
     gameState->getPlayer1()->attach(this);
@@ -15,7 +15,7 @@ void BoneGolemEffect::deactivate(){
 }
 
 void BoneGolemEffect::notify(RawPtrSubject<Event> &whoFrom){
-    if(isActive && whoFrom.getInfo().getEventType() == EventType::MINION_ENTERED){
+    if(isActive && whoFrom.getInfo().getEventType() == EventType::MINION_LEFT){
         getOwner()->setAttack(getOwner()->getAttack() + 1);
         getOwner()->setDefense(getOwner()->getDefense() + 1);
     }

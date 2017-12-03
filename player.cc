@@ -191,7 +191,7 @@ void Player::use(GameState *gameState, int i){
         }
         minionToCast->use(gameState);
         minionToCast->useAction();
-    } catch(out_of_range) {
+    }catch(out_of_range){
         throw out_of_range("No card at that index.");
     }
 }
@@ -217,7 +217,7 @@ void Player::addMinionToField(shared_ptr<AbstractMinionCard> minion){
 }
 
 void Player::attackEnemy(GameState *gameState, int i){
-    try {
+    try{
         shared_ptr<AbstractMinionCard> minionToAttack = field.at(i-1);
         if (minionToAttack->getActions() <= 0) {
             throw invalid_argument("Not enough actions to attack.");
@@ -225,15 +225,15 @@ void Player::attackEnemy(GameState *gameState, int i){
         minionToAttack->attackEnemy(gameState);
         minionToAttack->useAction();
     }
-    catch (out_of_range) {
+    catch(out_of_range){
         throw out_of_range("No card at that index.");
     }
 }
 
 void Player::attackEnemy(GameState *gameState, int i, int j) {
-    try {
+    try{
         shared_ptr<AbstractMinionCard> minionToAttack = field.at(i - 1);
-        if (minionToAttack->getActions() <= 0) {
+        if(minionToAttack->getActions() <= 0){
             throw invalid_argument("Not enough actions to attack.");
         }
         minionToAttack->attackEnemy(gameState, j);
@@ -246,18 +246,20 @@ void Player::attackEnemy(GameState *gameState, int i, int j) {
             opponent->moveToGraveyard(j - 1);
         }
     }
-    catch (out_of_range) {
+    catch(out_of_range){
         throw out_of_range("No card at that index.");
     }
 }
 
 void Player::moveToGraveyard(int i){
     //TODO remove enchatments before moving to graveyard
-    try {
+    try{
         graveyard.push_back(field.at(i));
         field.erase(field.begin() + i);
+        lastEvent = {EventType::MINION_LEFT, graveyard.back()};
+        notifyObservers();
     }
-    catch (out_of_range) {
+    catch(out_of_range){
         throw out_of_range("No card at that index.");
     }
 }

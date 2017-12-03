@@ -1,19 +1,24 @@
 #include "triggered_effect.h"
 
 using std::shared_ptr;
+using std::string;
 
-TriggeredEffect::TriggeredEffect():owner{nullptr}{}
+TriggeredEffect::TriggeredEffect(string description):owner{nullptr}, description{description}{}
 
 TriggeredEffect *TriggeredEffect::getThis(){
     return this;
 }
 
-void TriggeredEffect::setOwner(std::shared_ptr<AbstractMinionCard> owner){
+void TriggeredEffect::setOwner(shared_ptr<AbstractMinionCard> owner){
     this->owner = owner;
 }
 
 shared_ptr<AbstractMinionCard> TriggeredEffect::getOwner(){
     return owner;
+}
+
+string TriggeredEffect::getDescription(){
+    return description;
 }
 
 TriggeredEffect::~TriggeredEffect(){

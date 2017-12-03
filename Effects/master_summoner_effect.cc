@@ -15,11 +15,7 @@ void MasterSummonerEffect::activate(GameState *gameState){
     if(player->getHand().size() == 5){
         throw invalid_argument("Cannot summon any more minions");
     }
-    else if(player->getMagic() < 2){
-        throw invalid_argument("Not enough magic to use this ability.");
-    }
     else{
-        player->setMagic(player->getMagic() - 2);
         int numberOfMinions = min(3, int(5 - player->getField().size()));
         for(int x = 0; x < numberOfMinions; x++){
             player->addMinionToField((shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Air Elemental", 0, player, 1, 1))));
@@ -32,7 +28,7 @@ void MasterSummonerEffect::activate(GameState *gameState, int p, std::string t){
 }
 
 int MasterSummonerEffect::getCost(){
-    return 1;
+    return 2;
 }
 
 MasterSummonerEffect::~MasterSummonerEffect(){}

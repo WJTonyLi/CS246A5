@@ -18,33 +18,27 @@ void NovicePyromancerEffect::activate(GameState *gameState){
 }
 
 void NovicePyromancerEffect::activate(GameState *gameState, int p, std::string t){
-    if(player->getMagic() < 1){
-        throw invalid_argument("Not enough magic to use this ability.");
+    shared_ptr<Player> player;
+    if(p == 1){
+        player = gameState->getPlayer1();
+    }
+    else if(p == 2){
+        player = gameState->getPlayer2();
     }
     else{
-        shared_ptr<Player> player;
-        if(p == 1){
-            player = gameState->getPlayer1();
+        throw invalid_argument("Must target player 1 or 2.");
+    }
+    int target;
+    istringstream (t)>>target;
+    if(target >= 1 && target <= int(player->getField().size())){
+        shared_ptr<AbstractMinionCard> currentMinion = player->getField().at(target - 1);
+        currentMinion->setDefense(currentMinion->getDefense() - 1);
+        if(player->getField().at(target - 1)->isDead()){
+            player->moveToGraveyard(target - 1);
         }
-        else if(p == 2){
-            player = gameState->getPlayer2();
-        }
-        else{
-            throw invalid_argument("Must target player 1 or 2.");
-        }
-        int target;
-        istringstream (t)>>target;
-        if(target >= 1 && target <= int(player->getField().size())){
-            player->setMagic(player->getMagic() - 1);
-            shared_ptr<AbstractMinionCard> currentMinion = player->getField().at(target - 1);
-            currentMinion->setDefense(currentMinion->getDefense() - 1);
-            if(player->getField().at(target - 1)->isDead()){
-                player->moveToGraveyard(target - 1);
-            }
-        }
-        else{
-            throw invalid_argument("Must target a minion.");
-        }
+    }
+    else{
+        throw invalid_argument("Must target a minion.");
     }
 }
 

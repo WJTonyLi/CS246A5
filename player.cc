@@ -102,7 +102,7 @@ void Player::startTurn(){
     magic++;
     drawACard();
     for (auto &n: field) {
-        n->incrementActions();
+        if (n->getActions() < 1) n->incrementActions();
     }
 }
 

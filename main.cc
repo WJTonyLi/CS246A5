@@ -53,11 +53,14 @@ int main(int argc, char *argv[])
     gc->startGame();
 
     // Handle -init option
+    // End game if won in initFile
     if (initFile != "") {
         if (ifstream file{initFile}) {
             CliView initInput{file};
             initInput.attach(gc);
-            initInput.readCommands();
+            while (gs->getCurrentStatus() != CurrentStatus::GAME_WON && !initInput.isDone()) {
+                initInput.readCommands();
+            }
         } else {
         cerr << "File for -init not found" << endl;
         }
@@ -66,7 +69,9 @@ int main(int argc, char *argv[])
     // Get user input
     CliView userInput{cin};
     userInput.attach(gc);
-    userInput.readCommands();
+    while (gs->getCurrentStatus() != CurrentStatus::GAME_WON && !userInput.isDone()) {
+        userInput.readCommands();
+    }
 
     return 0;
 }

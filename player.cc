@@ -4,13 +4,13 @@
 #include "base_minion_card.h"
 #include "Effects/blizzard_effect.h"
 #include "Effects/master_summoner_effect.h"
+#include "Effects/novice_pyromancer_effect.h"
 #include "Effects/apprentice_summoner_effect.h"
 #include <fstream>
 #include <iostream>
 #include <algorithm>
 #include <stdexcept>
 
-using namespace std;
 using std::string;
 using std::ifstream;
 using std::exception;
@@ -28,7 +28,6 @@ Player::Player():life{20}, magic{3}, name{""}, deck{}, hand{}, field{}, graveyar
 }
 
 Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}, field{}, graveyard{}{
-    cout<<deckFileName<<endl;
     ifstream deckFile;
     deckFile.open(deckFileName);
     string cardName;
@@ -51,6 +50,9 @@ Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}
             }
             else if(cardName == "Master Summoner"){
                 deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Master Summoner", 3, this, 2, 3, make_shared<MasterSummonerEffect>(this))));
+            }
+            else if(cardName == "Novice Pyromancer"){
+                deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Novice Pyromancer", 1, this, 0, 1, make_shared<NovicePyromancerEffect>(this))));
             }
         }
     }
@@ -123,7 +125,6 @@ const std::vector<std::shared_ptr<AbstractMinionCard>> Player::getField(){
 }
 
 void Player::shuffle(){
-    srand (time(NULL));
     random_shuffle(deck.begin(), deck.end());
 }
 

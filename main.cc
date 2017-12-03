@@ -10,6 +10,8 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
+    //seed the random number generator for shuffle
+    srand(time(NULL));
     string deckFile1 = "default.deck";
     string deckFile2 = "default.deck";
     string initFile;

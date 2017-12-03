@@ -19,8 +19,18 @@ void GameController::notify(Subject<std::string> &whoFrom){
     if(gameState->getCurrentStatus() == CurrentStatus::GET_NAME){
         gameState->setCurrentPlayerName(iss.str());
         if(gameState->getTurn() == 2){
-            gameState->endTurn();
             gameState->setCurrentStatus(CurrentStatus::SHOW_BOARD);
+            if(!testMode){
+                gameState->getPlayer1()->shuffle();
+                gameState->getPlayer2()->shuffle();
+            }
+            for(int x = 0; x < 5; x++){
+                gameState->getPlayer1()->drawACard();
+            }
+            for(int x = 0; x < 5; x++){
+                gameState->getPlayer2()->drawACard();
+            }
+            gameState->endTurn();
         }
         else{
             gameState->endTurn();

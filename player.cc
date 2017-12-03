@@ -50,11 +50,6 @@ Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}
             }
         }
     }
-    srand (time(NULL));
-    random_shuffle(deck.begin(), deck.end());
-    for(int x = 0; x < 5; x++){
-        drawACard();
-    }
 }
 
 int Player::getLife() const{
@@ -113,6 +108,11 @@ const std::vector<std::shared_ptr<AbstractCard>> Player::getHand(){
 
 const std::vector<std::shared_ptr<AbstractMinionCard>> Player::getField(){
     return field;
+}
+
+void Player::shuffle(){
+    srand (time(NULL));
+    random_shuffle(deck.begin(), deck.end());
 }
 
 void Player::play(GameState *gameState, int i){

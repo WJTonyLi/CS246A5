@@ -19,6 +19,7 @@ class BaseMinionCard:public AbstractMinionCard{
         void play(GameState *gameState, int p, std::string t) override;
         void use(GameState *gameState) override;
         void use(GameState *gameState, int p, std::string t) override;
+        void setTriggeredAbility(std::shared_ptr<TriggeredEffect> triggeredAbility);
         card_template_t getGraphics() const override;
         ~BaseMinionCard();
 };

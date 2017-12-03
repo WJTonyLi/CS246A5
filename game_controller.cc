@@ -2,7 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include "game_controller.h"
-#include "subject.h"
+#include "shared_ptr_subject.h"
 
 using std::cout;
 using std::cerr;
@@ -13,7 +13,7 @@ using std::istringstream;
 GameController::GameController(std::shared_ptr<GameState> gameState, bool testMode, bool graphics):
     gameState{gameState}, testMode{testMode}, graphics{graphics} {}
 
-void GameController::notify(Subject<std::string> &whoFrom){
+void GameController::notify(SharedPtrSubject<std::string> &whoFrom){
     istringstream iss(whoFrom.getInfo());
     if(gameState->getCurrentStatus() == CurrentStatus::GET_NAME){
         gameState->setCurrentPlayerName(iss.str());

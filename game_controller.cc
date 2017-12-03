@@ -60,7 +60,7 @@ void GameController::notify(Subject<std::string> &whoFrom){
                 try {
                     gameState->getCurrentPlayer()->discardCard(i);
                 }
-                catch (std::out_of_range& e) {
+                catch(std::out_of_range& e) {
                     cerr << e.what() << endl;
                 }
             }
@@ -77,10 +77,10 @@ void GameController::notify(Subject<std::string> &whoFrom){
                     try{
                         gameState->attackEnemy(i, j);
                     }
-                    catch (std::out_of_range& e){
+                    catch(std::out_of_range& e){
                         cerr << e.what() << endl;
                     }
-                    catch (std::invalid_argument& e){
+                    catch(std::invalid_argument& e){
                         cerr << e.what() << endl;
                     }
                 }
@@ -88,10 +88,10 @@ void GameController::notify(Subject<std::string> &whoFrom){
                     try{
                         gameState->attackEnemy(i);
                     }
-                    catch (std::out_of_range& e){
+                    catch(std::out_of_range& e){
                         cerr << e.what() << endl;
                     }
-                    catch (std::invalid_argument& e){
+                    catch(std::invalid_argument& e){
                         cerr << e.what() << endl;
                     }
                 }
@@ -110,20 +110,20 @@ void GameController::notify(Subject<std::string> &whoFrom){
                     try{
                         gameState->play(i, p, t);
                     }
-                    catch (std::out_of_range& e){
+                    catch(std::out_of_range& e){
                         cerr << e.what() << endl;
                     }
-                    catch (std::invalid_argument& e){
+                    catch(std::invalid_argument& e){
                         cerr << e.what() << endl;
                     }
                 }else{
                     try{
                         gameState->play(i);
                     }
-                    catch (std::out_of_range& e){
+                    catch(std::out_of_range& e){
                         cerr << e.what() << endl;
                     }
-                    catch (std::invalid_argument& e){
+                    catch(std::invalid_argument& e){
                         cerr << e.what() << endl;
                     }
                 }
@@ -139,12 +139,26 @@ void GameController::notify(Subject<std::string> &whoFrom){
                 int p;
                 string t;
                 if(iss >> p && iss>>t){
-                    gameState->use(i, p, t);
-                    cout << command << " " << p << " " << t <<  endl;
+                    try{
+                        gameState->use(i, p, t);
+                    }
+                    catch(std::out_of_range& e){
+                        cerr << e.what() << endl;
+                    }
+                    catch(std::invalid_argument& e){
+                        cerr << e.what() << endl;
+                    }
                 }
                 else{
-                    gameState->use(i);
-                    cout << command << " " << i << endl;
+                    try{
+                        gameState->use(i);
+                    }
+                    catch(std::out_of_range& e){
+                        cerr << e.what() << endl;
+                    }
+                    catch(std::invalid_argument& e){
+                        cerr << e.what() << endl;
+                    }
                 }
             }
             else{

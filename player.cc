@@ -3,6 +3,7 @@
 #include "spell_card.h"
 #include "base_minion_card.h"
 #include "Effects/blizzard_effect.h"
+#include "Effects/master_summoner_effect.h"
 #include "Effects/apprentice_summoner_effect.h"
 #include <fstream>
 #include <iostream>
@@ -47,6 +48,9 @@ Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}
             }
             else if(cardName == "Apprentice Summoner"){
                 deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Apprentice Summoner", 1, this, 1, 1, make_shared<ApprenticeSummonerEffect>(this))));
+            }
+            else if(cardName == "Master Summoner"){
+                deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Master Summoner", 3, this, 2, 3, make_shared<MasterSummonerEffect>(this))));
             }
         }
     }
@@ -131,7 +135,7 @@ void Player::play(GameState *gameState, int i){
         try{
             cardToPlay->play(gameState);
         }
-        catch(exception e){
+        catch(exception &e){
             hand.insert(hand.begin() + i, cardToPlay);
             magic += cardToPlay->getCost();
             throw e;
@@ -152,7 +156,7 @@ void Player::use(GameState *gameState, int i){
         try{
             field.at(i - 1)->use(gameState);
         }
-        catch(exception e){
+        catch(invalid_argument& e){
             throw e;
         }
     }
@@ -161,7 +165,19 @@ void Player::use(GameState *gameState, int i){
     }
 }
 
-void Player::use(GameState *gameState, int i, int p, string t){}
+void Player::use(GameState *gameState, int i, int p, string t){
+    if(int(field.size()) >= i && i >= 1){
+        try{
+            field.at(i - 1)->use(gameState, p, t);
+        }
+        catch(invalid_argument& e){
+            throw e;
+        }
+    }
+    else{
+        throw out_of_range("No card at that index.");
+    }
+}
 
 void Player::addMinionToField(shared_ptr<AbstractMinionCard> minion){
     field.emplace_back(minion);
@@ -176,7 +192,8 @@ void Player::attackEnemy(GameState *gameState, int i){
         }
         minionToAttack->attackEnemy(gameState);
         minionToAttack->useAction();
-    } else {
+    }
+    else{
         throw out_of_range("No card at that index.");
     }
 }

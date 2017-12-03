@@ -1,8 +1,6 @@
 #include "abstract_minion_card.h"
 #include "player.h"
 
-using std::shared_ptr;
-
 AbstractMinionCard::AbstractMinionCard(std::string name, int cost, Player *player, int attack, int defense):AbstractCard(name, cost, player), attack{attack}, defense{defense}, actions{0} {}
 
 int AbstractMinionCard::getAttack() const {

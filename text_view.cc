@@ -47,7 +47,7 @@ static void displayCards(vector<card_template_t> cards, ostream &os, bool drawSi
     }
 }
 
-void TextView::notify(Subject<void> &whoFrom){
+void TextView::notify(SharedPtrSubject<void> &whoFrom){
     if(gameState->getCurrentStatus() == CurrentStatus::GET_NAME){
         os<<"Please enter Player "<<gameState->getTurn()<<" name: " << endl;
     } else if (gameState->getCurrentStatus() == CurrentStatus::HELP_MESSAGE) {

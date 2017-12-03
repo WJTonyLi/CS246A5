@@ -3,11 +3,11 @@
 #include "spell_card.h"
 #include "base_minion_card.h"
 #include "Effects/blizzard_effect.h"
+#include "Effects/bone_golem_effect.h"
 #include "Effects/master_summoner_effect.h"
 #include "Effects/novice_pyromancer_effect.h"
 #include "Effects/apprentice_summoner_effect.h"
 #include <fstream>
-#include <iostream>
 #include <algorithm>
 #include <stdexcept>
 
@@ -19,7 +19,19 @@ using std::make_shared;
 using std::out_of_range;
 using std::invalid_argument;
 
-Player::Player():life{20}, magic{3}, name{""}, deck{}, hand{}, field{}, graveyard{}{
+Event::Event(EventType eventType):eventType{eventType}{}
+
+Event::Event(EventType eventType, std::shared_ptr<AbstractMinionCard> minion):eventType{eventType}, minion{minion}{}
+
+EventType Event::getEventType(){
+    return eventType;
+}
+
+std::shared_ptr<AbstractMinionCard> Event::getMinion(){
+    return minion;
+}
+
+Player::Player():life{20}, magic{3}, name{""}, deck{}, hand{}, field{}, graveyard{}, lastEvent{EventType::BEGINNING_TURN}{
     deck.emplace_back(shared_ptr<SpellCard>(make_shared<SpellCard>("Blizzard", 3, this, shared_ptr<ActivatedEffect>(make_shared<BlizzardEffect>()))));
     deck.emplace_back(shared_ptr<SpellCard>(make_shared<SpellCard>("Blizzard", 3, this, shared_ptr<ActivatedEffect>(make_shared<BlizzardEffect>()))));
     deck.emplace_back(shared_ptr<SpellCard>(make_shared<SpellCard>("Blizzard", 3, this, shared_ptr<ActivatedEffect>(make_shared<BlizzardEffect>()))));
@@ -27,7 +39,7 @@ Player::Player():life{20}, magic{3}, name{""}, deck{}, hand{}, field{}, graveyar
     hand.emplace_back(shared_ptr<SpellCard>(make_shared<SpellCard>("Blizzard", 3, this, shared_ptr<ActivatedEffect>(make_shared<BlizzardEffect>()))));
 }
 
-Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}, field{}, graveyard{}{
+Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}, field{}, graveyard{}, lastEvent{EventType::BEGINNING_TURN}{
     ifstream deckFile;
     deckFile.open(deckFileName);
     string cardName;
@@ -54,8 +66,17 @@ Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}
             else if(cardName == "Novice Pyromancer"){
                 deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Novice Pyromancer", 1, this, 0, 1, make_shared<NovicePyromancerEffect>(this))));
             }
+            else if(cardName == "Bone Golem"){
+                shared_ptr<BaseMinionCard> boneGolem = make_shared<BaseMinionCard>("Bone Golem", 2, this, 1, 3);
+                boneGolem->setTriggeredAbility(make_shared<BoneGolemEffect>());
+                deck.emplace_back(boneGolem);
+            }
         }
     }
+}
+
+Event Player::getInfo() const{
+    return lastEvent;
 }
 
 int Player::getLife() const{
@@ -125,6 +146,11 @@ void Player::startTurn(){
     }
 }
 
+void Player::endTurn(){
+    lastEvent = Event{EventType::ENDING_TURN};
+    notifyObservers();
+}
+
 const std::vector<std::shared_ptr<AbstractCard>> Player::getDeck(){
     return deck;
 }
@@ -186,6 +212,8 @@ void Player::use(GameState *gameState, int i, int p, string t){
 
 void Player::addMinionToField(shared_ptr<AbstractMinionCard> minion){
     field.emplace_back(minion);
+    lastEvent = {EventType::MINION_ENTERED, field.back()};
+    notifyObservers();
 }
 
 void Player::attackEnemy(GameState *gameState, int i){

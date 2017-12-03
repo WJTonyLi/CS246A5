@@ -45,12 +45,14 @@ void GameState::endTurn(){
     if(currentTurn == 1){
         currentTurn = 2;
         if(status != CurrentStatus::GET_NAME){
+            p1->endTurn();
             p2->startTurn();
         }
     }
     else if(currentTurn == 2){
         currentTurn = 1;
         if(status != CurrentStatus::GET_NAME){
+            p2->endTurn();
             p1->startTurn();
         }
     }

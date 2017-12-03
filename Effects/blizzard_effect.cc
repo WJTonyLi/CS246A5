@@ -10,7 +10,7 @@ BlizzardEffect::BlizzardEffect():ActivatedEffect{"Deal 2 damage to all minions"}
 
 void BlizzardEffect::activate(GameState *gameState){
     shared_ptr<Player> p1 = gameState->getPlayer1();
-    for(int x = 0; x < p1->getField().size();){
+    for(int x = 0; x < int(p1->getField().size());){
         shared_ptr<AbstractMinionCard> currentMinion = p1->getField().at(x);
         currentMinion->setDefense(currentMinion->getDefense() - 2);
         if(p1->getField().at(x)->isDead()){
@@ -21,7 +21,7 @@ void BlizzardEffect::activate(GameState *gameState){
         }
     }
     shared_ptr<Player> p2 = gameState->getPlayer2();
-    for(int x = 0; x < p2->getField().size();){
+    for(int x = 0; x < int(p2->getField().size());){
         shared_ptr<AbstractMinionCard> currentMinion = p2->getField().at(x);
         currentMinion->setDefense(currentMinion->getDefense() - 2);
         if(p2->getField().at(x)->isDead()){

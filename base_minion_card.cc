@@ -11,7 +11,12 @@ BaseMinionCard::BaseMinionCard(string name, int cost, Player *player, int attack
 BaseMinionCard::BaseMinionCard(string name, int cost, Player *player, int attack, int defense, shared_ptr<TriggeredEffect> triggeredAbility):AbstractMinionCard{name, cost, player, attack, defense}, activeAbility{nullptr}, triggeredAbility{triggeredAbility}, hasActivated{false}, hasTriggered{true}{}
 
 void BaseMinionCard::play(GameState *gameState){
-    getOwner()->addMinionToField(make_shared<BaseMinionCard>(*this));
+    shared_ptr<BaseMinionCard> copyOfSelf = make_shared<BaseMinionCard>(*this);
+    getOwner()->addMinionToField(copyOfSelf);
+    if(hasTriggered){
+        this->triggeredAbility->setOwner(copyOfSelf);
+        this->triggeredAbility->activate(gameState);
+    }
 }
 
 void BaseMinionCard::play(GameState *gameState, int p, string t){}
@@ -22,6 +27,12 @@ void BaseMinionCard::use(GameState *gameState){
 
 void BaseMinionCard::use(GameState *gameState, int p, string t){
     activeAbility->activate(gameState, p, t);
+}
+
+void BaseMinionCard::setTriggeredAbility(std::shared_ptr<TriggeredEffect> triggeredAbility){
+    this->triggeredAbility = triggeredAbility;
+    hasActivated = false;
+    hasTriggered = true;
 }
 
 card_template_t BaseMinionCard::getGraphics() const{

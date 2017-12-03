@@ -3,11 +3,11 @@
 
 #include <memory>
 #include "player.h"
-#include "subject.h"
+#include "shared_ptr_subject.h"
 
 enum class CurrentStatus{SHOW_BOARD, SHOW_HAND, GET_NAME, HELP_MESSAGE, GAME_WON, GAME_END};
 
-class GameState: public Subject<void>{
+class GameState: public SharedPtrSubject<void>{
         std::shared_ptr<Player> p1;
         std::shared_ptr<Player> p2;
         CurrentStatus status;

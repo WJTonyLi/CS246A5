@@ -2,9 +2,9 @@
 #define CLI_VIEW_H
 
 #include <iostream>
-#include "subject.h"
+#include "shared_ptr_subject.h"
 
-class CliView : public Subject<std::string> {
+class CliView : public SharedPtrSubject<std::string> {
     std::istream& is;
     bool done;
     std::string command;

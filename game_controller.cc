@@ -57,7 +57,12 @@ void GameController::notify(Subject<std::string> &whoFrom){
         else if (command == "discard" && testMode){
             int i;
             if (iss >> i){
-                cout << command << " " << i << endl;
+                try {
+                    gameState->getCurrentPlayer()->discardCard(i);
+                }
+                catch (std::out_of_range& e) {
+                    cerr << e.what() << endl;
+                }
             }
             else{
                 // throw invalidCommand

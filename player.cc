@@ -90,6 +90,14 @@ void Player::drawACard(){
     }
 }
 
+void Player::discardCard(int i) {
+    if (int (hand.size()) >= i && i >= 1) {
+        hand.erase(hand.begin() + i - 1);
+    } else {
+        throw out_of_range("No card at that index.");
+    }
+}
+
 void Player::startTurn(){
     magic++;
     drawACard();

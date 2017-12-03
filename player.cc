@@ -142,6 +142,8 @@ void Player::startTurn(){
     for (auto &n: field) {
         if (n->getActions() < 1) n->incrementActions();
     }
+    lastEvent = Event{EventType::BEGINNING_TURN};
+    notifyObservers();
 }
 
 void Player::endTurn(){

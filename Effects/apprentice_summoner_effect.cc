@@ -13,11 +13,7 @@ void ApprenticeSummonerEffect::activate(GameState *gameState){
     if(player->getHand().size() == 5){
         throw invalid_argument("Cannot summon any more minions");
     }
-    else if(player->getMagic() < 1){
-        throw invalid_argument("Not enough magic to use this ability.");
-    }
     else{
-        player->setMagic(player->getMagic() - 1);
         player->addMinionToField((shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Air Elemental", 0, player, 1, 1))));
     }
 }

@@ -112,20 +112,30 @@ void GameController::notify(Subject<std::string> &whoFrom){
                 string t;
                 if (iss >> p && iss >> t){
                     try{
+                        if (!testMode) {
+                            if(gameState->getCurrentPlayer()->getMagic() < gameState->getCurrentPlayer()->getHandCost(i)){
+                                throw std::invalid_argument("Not enough magic to play that card.");
+                            }
+                        }
                         gameState->play(i, p, t);
                     }
-                    catch(std::out_of_range& e){
-                        cerr << e.what() << endl;
+                    catch(std::out_of_range){
+                        cerr << "No card at that index." << endl;
                     }
                     catch(std::invalid_argument& e){
                         cerr << e.what() << endl;
                     }
                 }else{
                     try{
+                        if (!testMode) {
+                            if(gameState->getCurrentPlayer()->getMagic() < gameState->getCurrentPlayer()->getHandCost(i)){
+                                throw std::invalid_argument("Not enough magic to play that card.");
+                            }
+                        }
                         gameState->play(i);
                     }
-                    catch(std::out_of_range& e){
-                        cerr << e.what() << endl;
+                    catch(std::out_of_range){
+                        cerr << "No card at that index." << endl;
                     }
                     catch(std::invalid_argument& e){
                         cerr << e.what() << endl;

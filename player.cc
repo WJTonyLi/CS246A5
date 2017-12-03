@@ -91,6 +91,16 @@ std::shared_ptr<AbstractMinionCard> Player::getFieldMinion(int i) const {
     }
 }
 
+int Player::getHandCost(int i) const {
+    try {
+        return hand.at(i-1)->getCost();
+    }
+    catch (out_of_range) {
+        throw out_of_range("No card at that index.");
+    }
+}
+
+
 void Player::drawACard(){
     if(deck.size() > 0 && hand.size() < 5){
         hand.emplace_back(deck.back());
@@ -132,24 +142,16 @@ void Player::shuffle(){
 }
 
 void Player::play(GameState *gameState, int i){
-    if((int(hand.size()) >= i && i >= 1) && (magic >= hand.at(i-1)->getCost())){
-        shared_ptr<AbstractCard> cardToPlay = hand.at(i-1);
-        hand.erase(hand.begin() + i-1);
-        magic -= cardToPlay->getCost();
-        try{
-            cardToPlay->play(gameState);
-        }
-        catch(exception &e){
-            hand.insert(hand.begin() + i, cardToPlay);
-            magic += cardToPlay->getCost();
-            throw e;
-        }
+    shared_ptr<AbstractCard> cardToPlay = hand.at(i-1);
+    hand.erase(hand.begin() + i-1);
+    magic -= cardToPlay->getCost();
+    try{
+        cardToPlay->play(gameState);
     }
-    else if(int(hand.size()) < i || i < 1){
-        throw out_of_range("No card at that index.");
-    }
-    else{
-        throw invalid_argument("Not enough magic to play that card.");
+    catch(exception &e){
+        hand.insert(hand.begin() + i, cardToPlay);
+        magic += cardToPlay->getCost();
+        throw e;
     }
 }
 

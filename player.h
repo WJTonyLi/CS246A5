@@ -27,6 +27,7 @@ class Player{
         void setMagic(int magic);
         std::string getName() const;
         std::shared_ptr<AbstractMinionCard> getFieldMinion(int i) const;
+        int getHandCost(int i) const;
         void drawACard();
         void discardCard(int i);
         void startTurn();

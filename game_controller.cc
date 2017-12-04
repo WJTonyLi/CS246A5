@@ -30,6 +30,7 @@ void GameController::notify(SharedPtrSubject<std::string> &whoFrom){
                 gameState->getPlayer2()->drawACard();
             }
             gameState->endTurn();
+            gameState->renderNow();
         }
         else{
             gameState->endTurn();
@@ -45,6 +46,8 @@ void GameController::notify(SharedPtrSubject<std::string> &whoFrom){
         }
         else if(command == "end"){
             gameState->endTurn();
+            gameState->setCurrentStatus(CurrentStatus::SHOW_BOARD);
+            gameState->renderNow();
         }
         else if(command == "quit"){
             gameState->setCurrentStatus(CurrentStatus::GAME_END);

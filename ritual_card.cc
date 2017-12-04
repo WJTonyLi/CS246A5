@@ -25,6 +25,10 @@ void RitualCard::conditionMet(){
     }
 }
 
+void RitualCard::addCharges(int amount){
+    charges += amount;
+}
+
 card_template_t RitualCard::getGraphics(){
     return display_ritual(getName(), getCost(), activationCost, description, charges);
 }

@@ -16,7 +16,7 @@ int AbstractMinionCard::getDefense() const {
 }
 
 void AbstractMinionCard::setDefense(int value) {
-    this->defense = value;
+    this->defense = value < 0 ? 0 : value;
 }
 
 int AbstractMinionCard::getActions() const {

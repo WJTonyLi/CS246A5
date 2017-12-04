@@ -19,6 +19,7 @@ class RitualCard : public AbstractCard, public RawPtrObserver<Event>{
         std::string getDescription();
         card_template_t getGraphics() const;
         void conditionMet();
+        void addCharges(int amount);
         virtual void play(GameState *gameState) = 0;
         virtual void play(GameState *gameState, int p, std::string t) = 0;
         virtual void deactivate() = 0;

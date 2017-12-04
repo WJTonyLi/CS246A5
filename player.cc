@@ -10,6 +10,7 @@
 #include "Effects/novice_pyromancer_effect.h"
 #include "Effects/potion_seller_effect.h"
 #include "Effects/fire_elemental_effect.h"
+#include "Effects/recharge_effect.h"
 #include "Rituals/dark_ritual.h"
 #include "Rituals/aura_of_power.h"
 #include <fstream>
@@ -56,6 +57,9 @@ Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}
             if(cardName == "Blizzard"){
                 deck.emplace_back(shared_ptr<SpellCard>(make_shared<SpellCard>("Blizzard", 3, this, shared_ptr<ActivatedEffect>(make_shared<BlizzardEffect>()))));
             }
+            else if(cardName == "Recharge"){
+                deck.emplace_back(shared_ptr<SpellCard>(make_shared<SpellCard>("Recharge", 1, this, shared_ptr<ActivatedEffect>(make_shared<RechargeEffect>()))));
+            }
             else if(cardName == "Earth Elemental"){
                 deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Earth Elemental", 3, this, 4, 4)));
             }
@@ -79,7 +83,6 @@ Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}
             }
             else if(cardName == "Fire Elemental"){
                 deck.emplace_back(make_shared<BaseMinionCard>("Fire Elemental", 2, this, 2, 2, make_shared<FireElementalEffect>()));
-
             }
             else if(cardName == "Dark Ritual"){
                 deck.emplace_back(make_shared<DarkRitual>(this));

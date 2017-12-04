@@ -82,7 +82,12 @@ void TextView::notify(SharedPtrSubject<void> &whoFrom){
                 p2Minions.emplace_back(CARD_TEMPLATE_BORDER);
             }
         }
-        p1Display.emplace_back(CARD_TEMPLATE_BORDER);
+        if(gameState->getPlayer1()->getGraveyard().size() > 0){
+            p1Display.emplace_back(gameState->getPlayer1()->getGraveyard().back()->getGraphics());
+        }
+        else{
+            p1Display.emplace_back(CARD_TEMPLATE_BORDER);
+        }
         p1Display.emplace_back(CARD_TEMPLATE_EMPTY);
         p1Display.emplace_back(display_player_card(1, gameState->getPlayer1()->getName(), gameState->getPlayer1()->getLife(), gameState->getPlayer1()->getMagic()));
         p1Display.emplace_back(CARD_TEMPLATE_EMPTY);
@@ -101,7 +106,12 @@ void TextView::notify(SharedPtrSubject<void> &whoFrom){
         p2Display.emplace_back(CARD_TEMPLATE_EMPTY);
         p2Display.emplace_back(display_player_card(2, gameState->getPlayer2()->getName(), gameState->getPlayer2()->getLife(), gameState->getPlayer2()->getMagic()));
         p2Display.emplace_back(CARD_TEMPLATE_EMPTY);
-        p2Display.emplace_back(CARD_TEMPLATE_BORDER);
+        if(gameState->getPlayer2()->getGraveyard().size() > 0){
+            p2Display.emplace_back(gameState->getPlayer2()->getGraveyard().back()->getGraphics());
+        }
+        else{
+            p2Display.emplace_back(CARD_TEMPLATE_BORDER);
+        }
         displayTopBorder(os);
         displayCards(p1Display, os, true);
         displayCards(p1Minions, os, true);

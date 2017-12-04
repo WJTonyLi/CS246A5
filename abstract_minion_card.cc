@@ -43,7 +43,7 @@ void AbstractMinionCard::attackEnemy(GameState *gameState, int j) {
     int enemyDefense = enemy->getDefense();
     int newDefense = enemyDefense - attack;
     enemy->setDefense(newDefense);
-    defense -= enemyAttack;
+    setDefense(defense - enemyAttack);
 }
 
 bool AbstractMinionCard::isDead(){

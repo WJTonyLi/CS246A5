@@ -33,6 +33,7 @@ void BanishEffect::activate(GameState *gameState, int p, std::string t){
         istringstream is{t};
         is>>target;
         if(!is.fail()){
+            player->getField().at(target - 1)->setDefense(0);
             player->moveToGraveyard(target - 1);
         }
         else{

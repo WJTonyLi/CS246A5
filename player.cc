@@ -11,6 +11,7 @@
 #include "Effects/potion_seller_effect.h"
 #include "Effects/fire_elemental_effect.h"
 #include "Effects/recharge_effect.h"
+#include "Rituals/standstill.h"
 #include "Rituals/dark_ritual.h"
 #include "Rituals/aura_of_power.h"
 #include <fstream>
@@ -89,6 +90,9 @@ Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}
             }
             else if(cardName == "Aura of Power"){
                 deck.emplace_back(make_shared<AuraOfPower>(this));
+            }
+            else if(cardName == "Standstill"){
+                deck.emplace_back(make_shared<Standstill>(this));
             }
         }
     }

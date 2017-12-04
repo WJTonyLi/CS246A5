@@ -45,6 +45,8 @@ class Player: public RawPtrSubject<Event>{
         void setMagic(int magic);
         std::string getName() const;
         std::shared_ptr<AbstractMinionCard> getFieldMinion(int i) const;
+        std::shared_ptr<AbstractMinionCard> takeFieldMinion(int i);
+        std::shared_ptr<AbstractMinionCard> takeGraveyardMinion();
         int getHandCost(int i) const;
         int getFieldMinionCost(int i) const;
         void drawACard();
@@ -63,6 +65,7 @@ class Player: public RawPtrSubject<Event>{
         void attackEnemy(GameState *gameState, int i);
         void attackEnemy(GameState *gameState, int i, int j);
         void addMinionToField(std::shared_ptr<AbstractMinionCard> minion);
+        void addCardToHand(std::shared_ptr<AbstractCard> card);
         void moveToGraveyard(int i);
         bool hasRitualInPlay();
         void setRitual(std::shared_ptr<RitualCard> ritual);

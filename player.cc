@@ -11,13 +11,18 @@
 #include "Effects/novice_pyromancer_effect.h"
 #include "Effects/potion_seller_effect.h"
 #include "Effects/fire_elemental_effect.h"
+#include "Effects/raise_dead_effect.h"
 #include "Effects/recharge_effect.h"
+#include "Effects/unsummon_effect.h"
 #include "Rituals/standstill.h"
 #include "Rituals/dark_ritual.h"
 #include "Rituals/aura_of_power.h"
 #include <fstream>
 #include <algorithm>
 #include <stdexcept>
+#include <iostream>
+
+using namespace std;
 
 using std::string;
 using std::ifstream;
@@ -64,6 +69,12 @@ Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}
             }
             else if(cardName == "Banish"){
                 deck.emplace_back(shared_ptr<SpellCard>(make_shared<SpellCard>("Banish", 2, this, shared_ptr<ActivatedEffect>(make_shared<BanishEffect>()))));
+            }
+            else if(cardName == "Unsummon"){
+                deck.emplace_back(shared_ptr<SpellCard>(make_shared<SpellCard>("Unsummon", 1, this, shared_ptr<ActivatedEffect>(make_shared<UnsummonEffect>()))));
+            }
+            else if(cardName == "Raise Dead"){
+                deck.emplace_back(shared_ptr<SpellCard>(make_shared<SpellCard>("Raise Dead", 1, this, shared_ptr<ActivatedEffect>(make_shared<RaiseDeadEffect>()))));
             }
             else if(cardName == "Earth Elemental"){
                 deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Earth Elemental", 3, this, 4, 4)));
@@ -130,12 +141,38 @@ void Player::setName(string name){
     this->name = name;
 }
 
-std::shared_ptr<AbstractMinionCard> Player::getFieldMinion(int i) const {
+shared_ptr<AbstractMinionCard> Player::getFieldMinion(int i) const {
     try {
         return field.at(i-1);
     }
     catch (out_of_range) {
         throw out_of_range("No card at that index.");
+    }
+}
+
+
+shared_ptr<AbstractMinionCard> Player::takeFieldMinion(int i){
+    try{
+        shared_ptr<AbstractMinionCard> removedCard = field.at(i);
+        field.at(i)->deactivateTriggered();
+        field.erase(field.begin() + i);
+        lastEvent = {EventType::MINION_LEFT, removedCard};
+        notifyObservers();
+        return removedCard;
+    }
+    catch(out_of_range){
+        throw out_of_range("No card at that index.");
+    }
+}
+
+shared_ptr<AbstractMinionCard> Player::takeGraveyardMinion(){
+    if(graveyard.size() > 0){
+        shared_ptr<AbstractMinionCard> removedCard = graveyard.back();
+        graveyard.pop_back();
+        return removedCard;
+    }
+    else{
+        throw out_of_range("No cards in graveyard.");
     }
 }
 
@@ -264,6 +301,10 @@ void Player::addMinionToField(shared_ptr<AbstractMinionCard> minion){
     field.emplace_back(minion);
     lastEvent = {EventType::MINION_ENTERED, field.back()};
     notifyObservers();
+}
+
+void Player::addCardToHand(std::shared_ptr<AbstractCard> card){
+    hand.emplace_back(card);
 }
 
 void Player::attackEnemy(GameState *gameState, int i){

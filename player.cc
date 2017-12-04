@@ -4,6 +4,7 @@
 #include "ritual_card.h"
 #include "base_minion_card.h"
 #include "Effects/apprentice_summoner_effect.h"
+#include "Effects/banish_effect.h"
 #include "Effects/blizzard_effect.h"
 #include "Effects/bone_golem_effect.h"
 #include "Effects/master_summoner_effect.h"
@@ -61,36 +62,39 @@ Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}
             else if(cardName == "Recharge"){
                 deck.emplace_back(shared_ptr<SpellCard>(make_shared<SpellCard>("Recharge", 1, this, shared_ptr<ActivatedEffect>(make_shared<RechargeEffect>()))));
             }
+            else if(cardName == "Banish"){
+                deck.emplace_back(shared_ptr<SpellCard>(make_shared<SpellCard>("Banish", 2, this, shared_ptr<ActivatedEffect>(make_shared<BanishEffect>()))));
+            }
             else if(cardName == "Earth Elemental"){
                 deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Earth Elemental", 3, this, 4, 4)));
             }
             else if(cardName == "Air Elemental"){
                 deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Air Elemental", 0, this, 1, 1)));
             }
-            else if(cardName == "Apprentice Summoner"){
-                deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Apprentice Summoner", 1, this, 1, 1, make_shared<ApprenticeSummonerEffect>(this))));
-            }
-            else if(cardName == "Master Summoner"){
-                deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Master Summoner", 3, this, 2, 3, make_shared<MasterSummonerEffect>(this))));
-            }
-            else if(cardName == "Novice Pyromancer"){
-                deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Novice Pyromancer", 1, this, 0, 1, make_shared<NovicePyromancerEffect>(this))));
-            }
-            else if(cardName == "Bone Golem"){
-                deck.emplace_back(make_shared<BaseMinionCard>("Bone Golem", 2, this, 1, 3, make_shared<BoneGolemEffect>()));
-            }
-            else if(cardName == "Potion Seller"){
-                deck.emplace_back(make_shared<BaseMinionCard>("Potion Seller", 2, this, 1, 3, make_shared<PotionSellerEffect>()));
-            }
-            else if(cardName == "Fire Elemental"){
-                deck.emplace_back(make_shared<BaseMinionCard>("Fire Elemental", 2, this, 2, 2, make_shared<FireElementalEffect>()));
-            }
-            else if(cardName == "Dark Ritual"){
-                deck.emplace_back(make_shared<DarkRitual>(this));
-            }
-            else if(cardName == "Aura of Power"){
-                deck.emplace_back(make_shared<AuraOfPower>(this));
-            }
+//            else if(cardName == "Apprentice Summoner"){
+//                deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Apprentice Summoner", 1, this, 1, 1, make_shared<ApprenticeSummonerEffect>(this))));
+//            }
+//            else if(cardName == "Master Summoner"){
+//                deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Master Summoner", 3, this, 2, 3, make_shared<MasterSummonerEffect>(this))));
+//            }
+//            else if(cardName == "Novice Pyromancer"){
+//                deck.emplace_back(shared_ptr<BaseMinionCard>(make_shared<BaseMinionCard>("Novice Pyromancer", 1, this, 0, 1, make_shared<NovicePyromancerEffect>(this))));
+//            }
+//            else if(cardName == "Bone Golem"){
+//                deck.emplace_back(make_shared<BaseMinionCard>("Bone Golem", 2, this, 1, 3, make_shared<BoneGolemEffect>()));
+//            }
+//            else if(cardName == "Potion Seller"){
+//                deck.emplace_back(make_shared<BaseMinionCard>("Potion Seller", 2, this, 1, 3, make_shared<PotionSellerEffect>()));
+//            }
+//            else if(cardName == "Fire Elemental"){
+//                deck.emplace_back(make_shared<BaseMinionCard>("Fire Elemental", 2, this, 2, 2, make_shared<FireElementalEffect>()));
+//            }
+//            else if(cardName == "Dark Ritual"){
+//                deck.emplace_back(make_shared<DarkRitual>(this));
+//            }
+//            else if(cardName == "Aura of Power"){
+//                deck.emplace_back(make_shared<AuraOfPower>(this));
+//            }
             else if(cardName == "Standstill"){
                 deck.emplace_back(make_shared<Standstill>(this));
             }
@@ -196,6 +200,10 @@ const std::vector<std::shared_ptr<AbstractMinionCard>> Player::getField(){
     return field;
 }
 
+const std::vector<std::shared_ptr<AbstractMinionCard>> Player::getGraveyard(){
+    return graveyard;
+}
+
 void Player::shuffle(){
     random_shuffle(deck.begin(), deck.end());
 }
@@ -215,7 +223,20 @@ void Player::play(GameState *gameState, int i){
     }
 }
 
-void Player::play(GameState *gameState, int i, int p, string t){}
+void Player::play(GameState *gameState, int i, int p, string t){
+    shared_ptr<AbstractCard> cardToPlay = hand.at(i-1);
+    hand.erase(hand.begin() + i-1);
+    magic -= cardToPlay->getCost();
+    if (magic < 0) magic = 0;
+    try{
+        cardToPlay->play(gameState, p, t);
+    }
+    catch(exception &e){
+        hand.insert(hand.begin() + i, cardToPlay);
+        magic += cardToPlay->getCost();
+        throw e;
+    }
+}
 
 void Player::use(GameState *gameState, int i){
     shared_ptr<AbstractMinionCard> minionToCast = field.at(i-1);

@@ -54,6 +54,7 @@ class Player: public RawPtrSubject<Event>{
         const std::vector<std::shared_ptr<AbstractCard>> getDeck();
         const std::vector<std::shared_ptr<AbstractCard>> getHand();
         const std::vector<std::shared_ptr<AbstractMinionCard>> getField();
+        const std::vector<std::shared_ptr<AbstractMinionCard>> getGraveyard();
         void shuffle();
         void play(GameState *gameState, int i);
         void play(GameState *gameState, int i, int p, std::string t);

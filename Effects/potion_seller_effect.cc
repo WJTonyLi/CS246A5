@@ -15,7 +15,9 @@ void PotionSellerEffect::deactivate(){
 
 void PotionSellerEffect::notify(RawPtrSubject<Event> &whoFrom){
     if(isActive && whoFrom.getInfo().getEventType() == EventType::ENDING_TURN){
-        getOwner()->setDefense(getOwner()->getDefense() + 1);
+        for (auto &n: getOwner()->getOwner()->getField()) {
+            n->setDefense(n->getDefense() + 1);
+        }
     }
 }
 

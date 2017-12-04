@@ -54,7 +54,6 @@ void GameController::notify(SharedPtrSubject<std::string> &whoFrom){
         }
         else if(command == "draw" && testMode){
             gameState->getCurrentPlayer()->drawACard();
-            cout << command << endl;
         }
         else if (command == "discard" && testMode){
             int i;
@@ -67,8 +66,7 @@ void GameController::notify(SharedPtrSubject<std::string> &whoFrom){
                 }
             }
             else{
-                // throw invalidCommand
-                cerr << "Invalid Command (this is not an exception yet)" << endl;
+                cerr << "Invalid Command." << endl;
             }
         }
         else if (command == "attack"){
@@ -104,8 +102,7 @@ void GameController::notify(SharedPtrSubject<std::string> &whoFrom){
                 }
             }
             else{
-                // throw invalidCommand
-                cerr << "Invalid Command (this is not an exception yet)" << endl;
+                cerr << "Invalid Command." << endl;
             }
         }
         else if(command == "play"){
@@ -146,8 +143,7 @@ void GameController::notify(SharedPtrSubject<std::string> &whoFrom){
                 }
             }
             else{
-                // throw invalidCommand
-                cerr << "Invalid Command (this is not an exception yet)" << endl;
+                cerr << "Invalid Command." << endl;
             }
         }
         else if(command == "use"){
@@ -184,8 +180,7 @@ void GameController::notify(SharedPtrSubject<std::string> &whoFrom){
                 }
             }
             else{
-                // throw invalidCommand
-                cerr << "Invalid Command (this is not an exception yet)" << endl;
+                cerr << "Invalid Command." << endl;
             }
         }
         else if(command == "hand"){
@@ -197,8 +192,7 @@ void GameController::notify(SharedPtrSubject<std::string> &whoFrom){
             gameState->renderNow();
         }
         else{
-            // throw invalidCommand
-            cerr << "Invalid Command (this is not an exception yet)" << endl;
+            cerr << "Invalid Command." << endl;
         }
     }
 }

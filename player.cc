@@ -9,6 +9,7 @@
 #include "Effects/master_summoner_effect.h"
 #include "Effects/novice_pyromancer_effect.h"
 #include "Effects/potion_seller_effect.h"
+#include "Effects/fire_elemental_effect.h"
 #include "Rituals/dark_ritual.h"
 #include <fstream>
 #include <algorithm>
@@ -74,6 +75,10 @@ Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}
             }
             else if(cardName == "Potion Seller"){
                 deck.emplace_back(make_shared<BaseMinionCard>("Potion Seller", 2, this, 1, 3, make_shared<PotionSellerEffect>()));
+            }
+            else if(cardName == "Fire Elemental"){
+                deck.emplace_back(make_shared<BaseMinionCard>("Fire Elemental", 2, this, 2, 2, make_shared<FireElementalEffect>()));
+
             }
             else if(cardName == "Dark Ritual"){
                 deck.emplace_back(make_shared<DarkRitual>(this));

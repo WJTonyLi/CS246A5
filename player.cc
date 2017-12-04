@@ -11,6 +11,7 @@
 #include "Effects/potion_seller_effect.h"
 #include "Effects/fire_elemental_effect.h"
 #include "Rituals/dark_ritual.h"
+#include "Rituals/aura_of_power.h"
 #include <fstream>
 #include <algorithm>
 #include <stdexcept>
@@ -82,6 +83,9 @@ Player::Player(string deckFileName):life{20}, magic{3}, name{""}, deck{}, hand{}
             }
             else if(cardName == "Dark Ritual"){
                 deck.emplace_back(make_shared<DarkRitual>(this));
+            }
+            else if(cardName == "Aura of Power"){
+                deck.emplace_back(make_shared<AuraOfPower>(this));
             }
         }
     }
@@ -287,6 +291,9 @@ bool Player::hasRitualInPlay(){
 }
 
 void Player::setRitual(shared_ptr<RitualCard> ritual){
+    if(hasActiveRitual){
+        activeRitual->deactivate();
+    }
     hasActiveRitual = true;
     activeRitual = ritual;
 }
@@ -301,4 +308,5 @@ void Player::removeRitual(){
     }
     hasActiveRitual = false;
 }
+
 Player::~Player(){}

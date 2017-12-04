@@ -24,6 +24,7 @@ void DarkRitual::play(GameState *gameState, int p, string t){
 
 void DarkRitual::deactivate(){
     active = false;
+    getOwner()->detach(this);
 }
 
 void DarkRitual::notify(RawPtrSubject<Event> &whoFrom){

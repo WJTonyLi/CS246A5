@@ -33,6 +33,12 @@ void BaseMinionCard::use(GameState *gameState, int p, string t){
     activeAbility->activate(gameState, p, t);
 }
 
+void BaseMinionCard::deactivateTriggered() {
+    if (hasTriggered) {
+        triggeredAbility->deactivate();
+    }
+}
+
 card_template_t BaseMinionCard::getGraphics() const{
     if(hasActivated){
         return display_minion_activated_ability(getName(), getCost(), getAttack(), getDefense(), activeAbility->getCost(), activeAbility->getDescription());

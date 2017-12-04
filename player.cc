@@ -274,8 +274,8 @@ void Player::attackEnemy(GameState *gameState, int i, int j) {
 }
 
 void Player::moveToGraveyard(int i){
-    //TODO remove enchatments before moving to graveyard
     try{
+        field.at(i)->deactivateTriggered();
         graveyard.push_back(field.at(i));
         field.erase(field.begin() + i);
         lastEvent = {EventType::MINION_LEFT, graveyard.back()};

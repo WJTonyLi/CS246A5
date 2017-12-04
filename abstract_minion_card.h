@@ -27,6 +27,7 @@ class AbstractMinionCard:public AbstractCard{
         virtual void use(GameState *gameState) = 0;
         virtual void use(GameState *gameState, int p, std::string t) = 0;
         virtual bool isDead();
+        virtual void deactivateTriggered() = 0;
         virtual card_template_t getGraphics() const override = 0;
         virtual ~AbstractMinionCard();
 };

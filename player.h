@@ -43,6 +43,7 @@ class Player: public RawPtrSubject<Event>{
         std::string getName() const;
         std::shared_ptr<AbstractMinionCard> getFieldMinion(int i) const;
         int getHandCost(int i) const;
+        int getFieldMinionCost(int i) const;
         void drawACard();
         void discardCard(int i);
         void startTurn();

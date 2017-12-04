@@ -15,6 +15,7 @@ class BaseMinionCard:public AbstractMinionCard{
         BaseMinionCard(std::string name, int cost, Player *player, int attack, int defense);
         BaseMinionCard(std::string name, int cost, Player *player, int attack, int defense, std::shared_ptr<ActivatedEffect> activeAbility);
         BaseMinionCard(std::string name, int cost, Player *player, int attack, int defense, std::shared_ptr<TriggeredEffect> triggeredAbility);
+        int getAbilityCost() const override;
         void play(GameState *gameState) override;
         void play(GameState *gameState, int p, std::string t) override;
         void use(GameState *gameState) override;

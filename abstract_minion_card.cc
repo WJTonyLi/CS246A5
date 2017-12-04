@@ -28,7 +28,7 @@ void AbstractMinionCard::incrementActions() {
 }
 
 void AbstractMinionCard::useAction() {
-    this->actions -= 1;
+    if (actions >= 0) this->actions -= 1;
 }
 
 void AbstractMinionCard::attackEnemy(GameState *gameState) {

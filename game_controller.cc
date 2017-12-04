@@ -165,10 +165,15 @@ void GameController::notify(SharedPtrSubject<std::string> &whoFrom){
                 }
                 else{
                     try{
+                        if (!testMode) {
+                            if(gameState->getCurrentPlayer()->getMagic() < gameState->getCurrentPlayer()->getFieldMinionCost(i)){
+                                throw std::invalid_argument("Not enough magic to play that card.");
+                            }
+                        }
                         gameState->use(i);
                     }
-                    catch(std::out_of_range& e){
-                        cerr << e.what() << endl;
+                    catch(std::out_of_range){
+                        cerr << "No card at that index." << endl;
                     }
                     catch(std::invalid_argument& e){
                         cerr << e.what() << endl;

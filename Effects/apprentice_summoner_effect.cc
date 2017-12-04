@@ -10,7 +10,7 @@ using std::invalid_argument;
 ApprenticeSummonerEffect::ApprenticeSummonerEffect(Player *player):ActivatedEffect{"Summon a 1/1 air elemental"}, player{player}{}
 
 void ApprenticeSummonerEffect::activate(GameState *gameState){
-    if(player->getHand().size() == 5){
+    if(player->getField().size() == 5){
         throw invalid_argument("Cannot summon any more minions");
     }
     else{

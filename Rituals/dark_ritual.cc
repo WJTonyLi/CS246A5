@@ -1,18 +1,23 @@
 #include "dark_ritual.h"
 
 using std::string;
+using std::shared_ptr;
 using std::make_shared;
 using std::invalid_argument;
 
-DarkRitual::DarkRitual(Player *player):RitualCard("Dark Ritual", 0, player, "At the start of your turn, gain 1 magic", 5, 1){}
+DarkRitual::DarkRitual(Player *player):RitualCard("Dark Ritual", 0, player, "At the start of your turn, gain 1 magic", 1, 5){}
 
 void DarkRitual::applyEffects(){
+    cout<<3<<endl;
     getOwner()->setMagic(getOwner()->getMagic() + 1);
+    cout<<4<<endl;
 }
 
 void DarkRitual::play(GameState *gameState){
-    getOwner()->setRitual(make_shared<DarkRitual>(*this));
-    active = true;
+    shared_ptr<DarkRitual> copyOfSelf = make_shared<DarkRitual>(*this);
+    getOwner()->setRitual(copyOfSelf);
+    getOwner()->attach(copyOfSelf.get());
+    copyOfSelf->active = true;
 }
 
 void DarkRitual::play(GameState *gameState, int p, string t){
@@ -24,7 +29,9 @@ void DarkRitual::deactivate(){
 }
 
 void DarkRitual::notify(RawPtrSubject<Event> &whoFrom){
+    cout<<1<<endl;
     if(active && whoFrom.getInfo().getEventType() == EventType::BEGINNING_TURN){
+        cout<<2<<endl;
         conditionMet();
     }
 }

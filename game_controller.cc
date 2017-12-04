@@ -30,6 +30,7 @@ void GameController::notify(SharedPtrSubject<std::string> &whoFrom){
                 gameState->getPlayer2()->drawACard();
             }
             gameState->endTurn();
+            gameState->renderNow();
         }
         else{
             gameState->endTurn();
@@ -45,6 +46,8 @@ void GameController::notify(SharedPtrSubject<std::string> &whoFrom){
         }
         else if(command == "end"){
             gameState->endTurn();
+            gameState->setCurrentStatus(CurrentStatus::SHOW_BOARD);
+            gameState->renderNow();
         }
         else if(command == "quit"){
             gameState->setCurrentStatus(CurrentStatus::GAME_END);
@@ -165,10 +168,15 @@ void GameController::notify(SharedPtrSubject<std::string> &whoFrom){
                 }
                 else{
                     try{
+                        if (!testMode) {
+                            if(gameState->getCurrentPlayer()->getMagic() < gameState->getCurrentPlayer()->getFieldMinionCost(i)){
+                                throw std::invalid_argument("Not enough magic to play that card.");
+                            }
+                        }
                         gameState->use(i);
                     }
-                    catch(std::out_of_range& e){
-                        cerr << e.what() << endl;
+                    catch(std::out_of_range){
+                        cerr << "No card at that index." << endl;
                     }
                     catch(std::invalid_argument& e){
                         cerr << e.what() << endl;

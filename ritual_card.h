@@ -9,13 +9,13 @@
 
 class GameState;
 
-class RitualCard : public AbstractCard, RawPtrObserver<Event>{
+class RitualCard : public AbstractCard, public RawPtrObserver<Event>{
         std::shared_ptr<TriggeredEffect> effect;
         std::string description;
         int charges;
         int activationCost;
     public:
-        RitualCard(std::string name, int cost, Player *player, std::string description, int charges, int activationCost);
+        RitualCard(std::string name, int cost, Player *player, std::string description, int activationCost, int charges);
         std::string getDescription();
         card_template_t getGraphics() const;
         void conditionMet();

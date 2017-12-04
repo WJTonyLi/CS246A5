@@ -128,6 +128,14 @@ int Player::getHandCost(int i) const {
     }
 }
 
+int Player::getFieldMinionCost(int i) const {
+    try {
+        return field.at(i-1)->getAbilityCost();
+    }
+    catch (out_of_range) {
+        throw out_of_range("No card at that index.");
+    }
+}
 
 void Player::drawACard(){
     if(deck.size() > 0 && hand.size() < 5){
@@ -180,6 +188,7 @@ void Player::play(GameState *gameState, int i){
     shared_ptr<AbstractCard> cardToPlay = hand.at(i-1);
     hand.erase(hand.begin() + i-1);
     magic -= cardToPlay->getCost();
+    if (magic < 0) magic = 0;
     try{
         cardToPlay->play(gameState);
     }
@@ -193,30 +202,25 @@ void Player::play(GameState *gameState, int i){
 void Player::play(GameState *gameState, int i, int p, string t){}
 
 void Player::use(GameState *gameState, int i){
-    try{
-        shared_ptr<AbstractMinionCard> minionToCast = field.at(i-1);
-        if (minionToCast->getActions() <= 0) {
-            throw invalid_argument("Not enough actions to attack.");
-        }
-        minionToCast->use(gameState);
-        minionToCast->useAction();
-    }catch(out_of_range){
-        throw out_of_range("No card at that index.");
+    shared_ptr<AbstractMinionCard> minionToCast = field.at(i-1);
+    if (minionToCast->getActions() <= 0) {
+        throw invalid_argument("Not enough actions to use ability.");
     }
+    minionToCast->use(gameState);
+    minionToCast->useAction();
+    magic -= minionToCast->getCost();
+    if (magic < 0) magic = 0;
 }
 
 void Player::use(GameState *gameState, int i, int p, string t){
-    try {
-        shared_ptr<AbstractMinionCard> minionToCast = field.at(i-1);
-        if (minionToCast->getActions() <= 0) {
-            throw invalid_argument("Not enough actions to attack.");
-        }
-        minionToCast->use(gameState, p, t);
-        minionToCast->useAction();
+    shared_ptr<AbstractMinionCard> minionToCast = field.at(i-1);
+    if (minionToCast->getActions() <= 0) {
+        throw invalid_argument("Not enough actions to use ability.");
     }
-    catch (out_of_range) {
-        throw out_of_range("No card at that index.");
-    }
+    minionToCast->use(gameState, p, t);
+    minionToCast->useAction();
+    magic -= minionToCast->getCost();
+    if (magic < 0) magic = 0;
 }
 
 void Player::addMinionToField(shared_ptr<AbstractMinionCard> minion){

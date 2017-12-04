@@ -19,6 +19,7 @@ class AbstractMinionCard:public AbstractCard{
         int getActions() const;
         void incrementActions();
         void useAction();
+        virtual int getAbilityCost() const = 0;
         virtual void attackEnemy(GameState *gameState);
         virtual void attackEnemy(GameState *gameState, int j);
         virtual void play(GameState *gameState) = 0;

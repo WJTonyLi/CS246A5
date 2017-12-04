@@ -10,6 +10,10 @@ BaseMinionCard::BaseMinionCard(string name, int cost, Player *player, int attack
 
 BaseMinionCard::BaseMinionCard(string name, int cost, Player *player, int attack, int defense, shared_ptr<TriggeredEffect> triggeredAbility):AbstractMinionCard{name, cost, player, attack, defense}, activeAbility{nullptr}, triggeredAbility{triggeredAbility}, hasActivated{false}, hasTriggered{true}{}
 
+int BaseMinionCard::getAbilityCost() const {
+    return activeAbility->getCost();
+}
+
 void BaseMinionCard::play(GameState *gameState){
     shared_ptr<BaseMinionCard> copyOfSelf = make_shared<BaseMinionCard>(*this);
     getOwner()->addMinionToField(copyOfSelf);

@@ -19,9 +19,7 @@ string RitualCard::getDescription(){
 }
 
 void RitualCard::conditionMet(){
-    cout<<"WTF1"<<" "<<activationCost<<" "<<charges<<endl;
     if(activationCost <= charges){
-    cout<<"WTF2"<<endl;
         applyEffects();
         charges -= activationCost;
     }

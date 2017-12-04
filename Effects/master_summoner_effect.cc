@@ -12,7 +12,7 @@ using std::invalid_argument;
 MasterSummonerEffect::MasterSummonerEffect(Player *player):ActivatedEffect{"Summon up to three 1/1 air elementals"}, player{player}{}
 
 void MasterSummonerEffect::activate(GameState *gameState){
-    if(player->getHand().size() == 5){
+    if(player->getField().size() == 5){
         throw invalid_argument("Cannot summon any more minions");
     }
     else{

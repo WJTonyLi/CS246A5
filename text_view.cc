@@ -1,5 +1,6 @@
 #include <vector>
 #include "text_view.h"
+#include "ritual_card.h"
 #include "abstract_card.h"
 #include "ascii_graphics.h"
 #include "abstract_minion_card.h"
@@ -85,8 +86,18 @@ void TextView::notify(SharedPtrSubject<void> &whoFrom){
         p1Display.emplace_back(CARD_TEMPLATE_EMPTY);
         p1Display.emplace_back(display_player_card(1, gameState->getPlayer1()->getName(), gameState->getPlayer1()->getLife(), gameState->getPlayer1()->getMagic()));
         p1Display.emplace_back(CARD_TEMPLATE_EMPTY);
-        p1Display.emplace_back(display_ritual("Placeholder", 1, 1, "Does nothing", 1));
-        p2Display.emplace_back(display_ritual("Placeholder", 1, 1, "Does nothing", 1));
+        if(gameState->getPlayer1()->hasRitualInPlay()){
+            p1Display.emplace_back(gameState->getPlayer1()->getRitual()->getGraphics());
+        }
+        else{
+            p1Display.emplace_back(CARD_TEMPLATE_BORDER);
+        }
+        if(gameState->getPlayer2()->hasRitualInPlay()){
+            p2Display.emplace_back(gameState->getPlayer2()->getRitual()->getGraphics());
+        }
+        else{
+            p2Display.emplace_back(CARD_TEMPLATE_BORDER);
+        }
         p2Display.emplace_back(CARD_TEMPLATE_EMPTY);
         p2Display.emplace_back(display_player_card(2, gameState->getPlayer2()->getName(), gameState->getPlayer2()->getLife(), gameState->getPlayer2()->getMagic()));
         p2Display.emplace_back(CARD_TEMPLATE_EMPTY);

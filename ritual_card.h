@@ -5,17 +5,25 @@
 #include <memory>
 #include "abstract_card.h"
 #include "triggered_effect.h"
+#include "player.h"
 
 class GameState;
 
-class RitualCard : public AbstractCard{
-        int asdf = 5;
+class RitualCard : public AbstractCard, RawPtrObserver<Event>{
         std::shared_ptr<TriggeredEffect> effect;
+        std::string description;
+        int charges;
+        int activationCost;
     public:
-        RitualCard(std::string name, int cost, Player *player, std::shared_ptr<TriggeredEffect> effect);
+        RitualCard(std::string name, int cost, Player *player, std::string description, int charges, int activationCost);
+        std::string getDescription();
         card_template_t getGraphics() const;
-        void play(GameState *gameState) override;
-        void play(GameState *gameState, int p, std::string t) override;
+        void conditionMet();
+        virtual void play(GameState *gameState) = 0;
+        virtual void play(GameState *gameState, int p, std::string t) = 0;
+        virtual void deactivate() = 0;
+        virtual void applyEffects() = 0;
+        card_template_t getGraphics();
         ~RitualCard();
 };
 

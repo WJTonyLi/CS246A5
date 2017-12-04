@@ -9,6 +9,7 @@
 class GameState;
 class AbstractCard;
 class AbstractMinionCard;
+class RitualCard;
 
 enum class EventType{MINION_ENTERED, MINION_LEFT, BEGINNING_TURN, ENDING_TURN};
 
@@ -31,6 +32,8 @@ class Player: public RawPtrSubject<Event>{
         std::vector<std::shared_ptr<AbstractMinionCard>> field;
         std::vector<std::shared_ptr<AbstractMinionCard>> graveyard;
         Event lastEvent;
+        bool hasActiveRitual = false;
+        std::shared_ptr<RitualCard> activeRitual;
     public:
         Player();
         Player(std::string deckFileName);
@@ -59,6 +62,10 @@ class Player: public RawPtrSubject<Event>{
         void attackEnemy(GameState *gameState, int i, int j);
         void addMinionToField(std::shared_ptr<AbstractMinionCard> minion);
         void moveToGraveyard(int i);
+        bool hasRitualInPlay();
+        void setRitual(std::shared_ptr<RitualCard> ritual);
+        std::shared_ptr<RitualCard> getRitual() const;
+        void removeRitual();
         ~Player();
 };
 

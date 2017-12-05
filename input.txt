@@ -1,16 +1,17 @@
-Ben
-Helaine
+Tom
+Jerry
 hand
 play 1
+play 1
+play 1
 end
+hand
+play 1
+play 2
+play 1
+use 1
+draw
+draw
+draw
 end
-attack 1
-end
-end
-attack 1
-end
-end
-attack 1
-end
-end
-attack 1
+
